@@ -47,7 +47,7 @@ class YahtzeeThread extends Thread {
             while (true) {
                 String messageFromClient = (String) input.readObject();
                 System.out.println("Thread says " +messageFromClient);
-                if (messageFromClient.equals("What time is it?")) {
+                if (messageFromClient.equals("Player wants to join")) {
                     output.flush();
                 } else if (messageFromClient.equals("Bye.")) {
                     output.writeObject((String) "Bye.");

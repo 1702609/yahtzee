@@ -393,9 +393,7 @@ public class YahtzeeSinglePlayer {
 	
 	public static void main(String[] args) {
 	    /*
-	    Welcome to Yahtzee - Simon Taylor Sept 2019 
 		Scoring - Y FH LS SS 4K 3K On Tw Th Fo Fi Si C
-		
 		currentScoreRecord - For each of the above {status, score}
 		canScoreThisRound - For each of the above  {can it be scored? i.e. can be scored and not previously scored, score}
 		theDice - {what's been rolled this turn}
@@ -403,15 +401,7 @@ public class YahtzeeSinglePlayer {
 		
 		showCurrentScore - calculate and show the current score from currentScoreRecord
 		whatCanBeScored - update canScoreThisRound from theDice and currentScoreRecord
-		chooseWhatToScore - user chooses from canScoreThisRound and update currentScoreRecord
-
-		Game - 	13 rounds
-				Show what's been scored
-				Roll/reroll dice max 3 times
-				Check what can be scored
-				Choose what can be scored
-				End of 13 rounds show final score and status
-	    */
+		chooseWhatToScore - user chooses from canScoreThisRound and update currentScoreRecord */
 
 		
 		int[][] currentScoreRecord = new int[][] {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}};
