@@ -1,5 +1,11 @@
 package yathzee;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.*;
 public class YahtzeeSinglePlayer {
 
@@ -391,7 +397,7 @@ public class YahtzeeSinglePlayer {
 
 	//Let's play...
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws UnknownHostException, IOException {
 	    /*
 		Scoring - Y FH LS SS 4K 3K On Tw Th Fo Fi Si C
 		currentScoreRecord - For each of the above {status, score}
@@ -403,7 +409,31 @@ public class YahtzeeSinglePlayer {
 		whatCanBeScored - update canScoreThisRound from theDice and currentScoreRecord
 		chooseWhatToScore - user chooses from canScoreThisRound and update currentScoreRecord */
 
+		Socket yahtzeeSocket  = null;
+		PrintWriter out = null;
+		BufferedReader in = null;
+		int clientPort = 4545;
+		String serverName = "localhost";
+		 
+		yahtzeeSocket = new Socket(serverName, clientPort);
 		
+		out = new PrintWriter(yahtzeeSocket.getOutputStream(), true);
+        in = new BufferedReader(new InputStreamReader(yahtzeeSocket.getInputStream()));
+    
+
+	    BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+	    String fromServer;
+	    String fromUser;
+		    
+	    // This is modified as it's the client that speaks first
+        out.println("Player wants to join");
+	    while (true) { 
+	        fromServer = in.readLine();
+	        if (fromServer != null) 
+	        	{
+        		
+	        	}
+				
 		int[][] currentScoreRecord = new int[][] {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}};
 		int[][] canScoreThisRound = new int[][] {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}};
 	    int currentScore = 0;
@@ -482,5 +512,6 @@ public class YahtzeeSinglePlayer {
 	    
 	}//end Main
 	 
-}//end class
+}
+	}//end class
 	
