@@ -6,40 +6,32 @@ import java.io.*;
 
 public class YahtzeeServer {
 
-	ArrayList<Integer> playerID = new ArrayList<Integer>();
-	private static long idCounter = 0;
+	protected static ArrayList<Integer> listOfPlayers = new ArrayList<Integer>();
+	protected static int idCounter = 0;
 	
     private static ServerSocket serverSocket;
 
-    private Socket socket = null;
-    private ObjectInputStream input;
-    private static ObjectOutputStream output;
-
     public static void main(String[] args) throws IOException {
         InetAddress computerAddr = InetAddress.getLocalHost();;
-        serverSocket = new ServerSocket(4321);
+        serverSocket = new ServerSocket(4545);
         System.out.println("The address of this computer is... " + computerAddr.getHostName());
         boolean listening = true;
         System.out.println("Yahtzee Server up and waiting");
-        System.out.println("connected"); //client detected the server
 
         while(listening)
         {
         	new YahtzeeThread(serverSocket.accept()).start();
-        	output.sendObject((String)"You are player "+createID());
             System.out.println("New server thread started");
         }
 
         serverSocket.close();
     }
 
-    public static synchronized String createID()
+    public static int createID()
     	{
-        return String.valueOf(idCounter++);
+        return idCounter++;
     	}
 }
-
-
 
 class YahtzeeThread extends Thread {
 
@@ -60,10 +52,10 @@ class YahtzeeThread extends Thread {
 
             while (true) {
                 String messageFromClient = (String) input.readObject();
-                System.out.println("Thread says " +messageFromClient);
                 if (messageFromClient.equals("Player wants to join")) {
-                    output.writeObject((String) "You are player number")
-                	output.flush();
+                    output.writeObject((String) "You are player number "+ YahtzeeServer.createID());
+                    YahtzeeServer.listOfPlayers.add(YahtzeeServer.idCounter);
+                    System.out.println("There are "+YahtzeeServer.listOfPlayers.size()+" player connected");
                 } else if (messageFromClient.equals("Bye.")) {
                     output.writeObject((String) "Bye.");
                     break;

@@ -1,9 +1,7 @@
 package yathzee;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.*;
@@ -64,7 +62,6 @@ public class YahtzeeSinglePlayer {
 		
 	}//showCurrentScore
 
-	
     private static int[][] whatCanBeScored(int[][] currentScoreRecord, int[] theDice) {
 		//Scoring Y FH LS SS 4K 3K On Tw Th Fo Fi Si C
     	//Updates canScoreThisRound
@@ -360,7 +357,6 @@ public class YahtzeeSinglePlayer {
 		
 		return canScoreThisRound;
     }//whatCanBeScored
-	 
 
 	private static int[][] chooseWhatToScore(int[][] currentScoreRecord, int [][]canScoreThisRound){
 		//Scoring Y FH LS SS 4K 3K On Tw Th Fo Fi Si C
@@ -393,46 +389,44 @@ public class YahtzeeSinglePlayer {
 		
 		return newScoreRecord;
 	}//chooseWhatToScore
-	
 
-	//Let's play...
-	
-	public static void main(String[] args) throws UnknownHostException, IOException {
+	public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
 	    /*
 		Scoring - Y FH LS SS 4K 3K On Tw Th Fo Fi Si C
 		currentScoreRecord - For each of the above {status, score}
 		canScoreThisRound - For each of the above  {can it be scored? i.e. can be scored and not previously scored, score}
 		theDice - {what's been rolled this turn}
 		currentScore - current score
-		
 		showCurrentScore - calculate and show the current score from currentScoreRecord
 		whatCanBeScored - update canScoreThisRound from theDice and currentScoreRecord
 		chooseWhatToScore - user chooses from canScoreThisRound and update currentScoreRecord */
 
 		Socket yahtzeeSocket  = null;
-		PrintWriter out = null;
-		BufferedReader in = null;
+		ObjectOutputStream output = null;
+		ObjectInputStream input = null;
 		int clientPort = 4545;
-		String serverName = "localhost";
+		InetAddress localHost = InetAddress.getLocalHost();
 		 
-		yahtzeeSocket = new Socket(serverName, clientPort);
-		
-		out = new PrintWriter(yahtzeeSocket.getOutputStream(), true);
-        in = new BufferedReader(new InputStreamReader(yahtzeeSocket.getInputStream()));
+		yahtzeeSocket = new Socket(localHost, clientPort);
+
+		output = new ObjectOutputStream(yahtzeeSocket.getOutputStream());
+		input = new ObjectInputStream(yahtzeeSocket.getInputStream());
     
 
 	    BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 	    String fromServer;
 	    String fromUser;
-		    
-	    // This is modified as it's the client that speaks first
-        out.println("Player wants to join");
-	    while (true) { 
-	        fromServer = in.readLine();
-	        if (fromServer != null) 
-	        	{
-        		
-	        	}
+
+		output.writeObject((String) "Player wants to join");
+		while (true) {
+			fromServer = (String) input.readObject();
+			if (fromServer != null)
+				{
+				System.out.println(fromServer);
+				if (fromServer.equals("Your turn to Play!"))
+				break;
+				}
+		}
 				
 		int[][] currentScoreRecord = new int[][] {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}};
 		int[][] canScoreThisRound = new int[][] {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}};
@@ -460,10 +454,8 @@ public class YahtzeeSinglePlayer {
 	    	for (int i = 0; i < 5; i++) {
 	    		theDice[i] = die();// sets the dice values
 	    	}
-
 	    	//See what we have rolled
 	    	showDice(theDice);
-	      
 	    	//Check rerolls - three dice to reroll
 	    	System.out.println("Three chances to reroll");
 	    	noRolls = 0;
@@ -489,29 +481,20 @@ public class YahtzeeSinglePlayer {
 	    	  if (noRolls == 3) {
 	    		  reroll = false;
 	    	  }
-	    	}//while
-	      
+	    	}
 	    	//What can be scored?
-	    	
 	    	canScoreThisRound = whatCanBeScored(currentScoreRecord, theDice);
-
 	    	//User chooses
-
 	    	currentScoreRecord = chooseWhatToScore(currentScoreRecord, canScoreThisRound);
-	      
 	    	//Now print total score so far
-	      
 	    	showCurrentScore(currentScoreRecord);
-	      
-	    }//end for
-
+	    }
     	currentScore = showCurrentScore(currentScoreRecord);
     	System.out.println("Your final score is " + currentScore);
     	System.out.println("You scored:");
     	showCurrentScore(currentScoreRecord);
-	    
-	}//end Main
-	 
-}
-	}//end class
+		}
+	}
+
+
 	
