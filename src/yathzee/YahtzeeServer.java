@@ -3,68 +3,136 @@ package yathzee;
 import java.net.*;
 import java.util.ArrayList;
 import java.io.*;
+import java.util.Collections;
+import java.util.List;
 
-public class YahtzeeServer {
+public class YahtzeeServer extends Thread {
 
-	protected static ArrayList<Integer> listOfPlayers = new ArrayList<Integer>();
-	protected static int idCounter = 0;
-	
-    private static ServerSocket serverSocket;
+	protected static int currentID = 0;
+    protected List<PlayerHandler> clients = new ArrayList<PlayerHandler>();
 
-    public static void main(String[] args) throws IOException {
-        InetAddress computerAddr = InetAddress.getLocalHost();;
-        serverSocket = new ServerSocket(4545);
-        System.out.println("The address of this computer is... " + computerAddr.getHostName());
-        boolean listening = true;
-        System.out.println("Yahtzee Server up and waiting");
+    private ServerSocket serverSocket;
 
-        while(listening)
+    public YahtzeeServer(int port)
         {
-        	new YahtzeeThread(serverSocket.accept()).start();
-            System.out.println("New server thread started");
+        try {
+            this.serverSocket = new ServerSocket(port);
+            System.out.println("New server initialized!");
+            clients = Collections
+                    .synchronizedList(new ArrayList<PlayerHandler>());
+            this.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         }
 
-        serverSocket.close();
-    }
+    public static void main(String[] args)
+        {
+        int portNumber = 4545;
+        new YahtzeeServer(portNumber);
+        }
 
-    public static int createID()
+    static synchronized public int createID()
     	{
-        return idCounter++;
-    	}
-}
+        return ++currentID;
+    	} //if two player join at the same time, they have to take turns
 
-class YahtzeeThread extends Thread {
 
+    private int order = 0;
     private Socket socket = null;
-    private ObjectInputStream input;
-    private ObjectOutputStream output;
+    private String myActionServerThreadName;
+    private BufferedReader stdIn;
+    protected String userInput;
+    static PrintWriter sendMessage; //writing to someone
 
-    public YahtzeeThread(Socket socket)
-    {
-        super("YahtzeeThread");
-        this.socket = socket;
-    }
 
     public void run() {
         try {
-            output = new ObjectOutputStream(socket.getOutputStream()); //stuff written by server
-            input = new ObjectInputStream(socket.getInputStream()); // stuff written by client
-
             while (true) {
-                String messageFromClient = (String) input.readObject();
+                String messageFromClient = userInput;
                 if (messageFromClient.equals("Player wants to join")) {
-                    output.writeObject((String) "You are player number "+ YahtzeeServer.createID());
-                    YahtzeeServer.listOfPlayers.add(YahtzeeServer.idCounter);
-                    System.out.println("There are "+YahtzeeServer.listOfPlayers.size()+" player connected");
+                    msgToClient = Integer.valueOf(myActionServerThreadName.replaceAll("\\D+", ""));
+                    PlayerHandler newClient = new PlayerHandler(socket);
+                    clients.add(newClient);
                 } else if (messageFromClient.equals("Bye.")) {
-                    output.writeObject((String) "Bye.");
                     break;
                 }
-            }
+                else if (clients.size() >= 2) {
+                    startGame();
+                        if (userInput != null & userInput.length() > 0) {
+                            for (PlayerHandler client : YahtzeeServer.clients) {
+                                client.out.println(userInput);
+                                client.out.flush();
+                                Thread.currentThread();
+                            }
+                    }
+                    {
+                        if (hasPlayerFinished()) {
+                            pickNextPlayer();
+                        }
+                    }
+                }
+            else continue;
             socket.close();
+        }
+    }catch (Exception e)
+    {
+        e.printStackTrace();
+    }
+}
 
-        }catch (Exception e)
+    private void startGame() throws IOException {
+        PlayerHandler chosen = clients.get(order);
+        chosen.out.println("player start"+chosen);
+        System.out.println("Player "+chosen+" will start now");
+    }
+
+    private void pickNextPlayer() {
+    }
+
+    private boolean hasPlayerFinished()
         {
+        return false;
+        }
+}
+
+class communicateWithPlayers extends Thread {
+    protected List<PlayerHandler> clients;
+    protected String userInput;
+    protected PrintWriter sendMessage; //writing to someone
+    protected BufferedReader getMessage; // take in message
+
+    public communicateWithPlayers(List<PlayerHandler> clients) {
+        this.clients = clients;
+        this.userInput = null;
+        this.start();
+    }
+
+    public void run() {
+        System.out.println("New Communication Thread Started");
+
+        try {
+            getMessage = new BufferedReader(new InputStreamReader(clients.get(0).client.getInputStream()));
+            if (getMessage.readLine().equals("Player wants to join")) {
+                clients.get(0).out.println(YahtzeeServer.createID());
+                
+            }
+        }catch (Exception e){}
+        try {
+            if (clients.size() > 0) {
+                this.console = new BufferedReader(new InputStreamReader(
+                        System.in));
+                while ((this.userInput = console.readLine()) != null) {
+                    if (userInput != null & userInput.length() > 0) {
+                        for (ClientHandler client : clients) {
+                            client.out.println(userInput);
+                            client.out.flush();
+                            Thread.currentThread();
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
