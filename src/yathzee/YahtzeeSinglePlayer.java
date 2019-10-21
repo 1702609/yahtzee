@@ -16,7 +16,6 @@ public class YahtzeeSinglePlayer {
 	static PrintWriter sendMessage; //writing to someone
  	static BufferedReader getMessage; // take in message
 
-
 	//Read an integer
 	public static int inputInt(String Prompt) {
 		int result = 0;
@@ -504,17 +503,3 @@ public class YahtzeeSinglePlayer {
 			gameLauncher();
 	}
 	}
-
-class PlayerHandler {
-	protected Socket client;
-	protected PrintWriter out;
-
-	public PlayerHandler(Socket client) {
-		this.client = client;
-		try {
-			this.out = new PrintWriter(client.getOutputStream());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-}

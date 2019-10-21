@@ -5,31 +5,30 @@ import java.util.ArrayList;
 import java.io.*;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class YahtzeeServer extends Thread {
+public class YahtzeeServer{
 
 	protected static int currentID = 0;
-    protected List<PlayerHandler> clients = new ArrayList<PlayerHandler>();
+    protected static List<PlayerHandler> clients = new ArrayList<>();
+	protected static int PORT = 9090;
 
-    private ServerSocket serverSocket;
+	private static ExecutorService pool = Executors.newFixedThreadPool(4);
 
-    public YahtzeeServer(int port)
+	
+    public static void main(String[] args) throws IOException
         {
-        try {
-            this.serverSocket = new ServerSocket(port);
-            System.out.println("New server initialized!");
-            clients = Collections
-                    .synchronizedList(new ArrayList<PlayerHandler>());
-            this.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        }
-
-    public static void main(String[] args)
-        {
-        int portNumber = 4545;
-        new YahtzeeServer(portNumber);
+    	ServerSocket listner = new ServerSocket(PORT);
+		while(true) 
+			{
+			System.out.println("[SERVER] Waiting for client connection...");
+			Socket client = listner.accept();
+			System.out.println("[SERVER] Connected to client");
+			PlayerHandler playerThread = new PlayerHandler(client);
+			clients.add(playerThread);
+			pool.execute(playerThread);
+			}
         }
 
     static synchronized public int createID()
@@ -37,55 +36,6 @@ public class YahtzeeServer extends Thread {
         return ++currentID;
     	} //if two player join at the same time, they have to take turns
 
-
-    private int order = 0;
-    private Socket socket = null;
-    private String myActionServerThreadName;
-    private BufferedReader stdIn;
-    protected String userInput;
-    static PrintWriter sendMessage; //writing to someone
-
-
-    public void run() {
-        try {
-            while (true) {
-                String messageFromClient = userInput;
-                if (messageFromClient.equals("Player wants to join")) {
-                    msgToClient = Integer.valueOf(myActionServerThreadName.replaceAll("\\D+", ""));
-                    PlayerHandler newClient = new PlayerHandler(socket);
-                    clients.add(newClient);
-                } else if (messageFromClient.equals("Bye.")) {
-                    break;
-                }
-                else if (clients.size() >= 2) {
-                    startGame();
-                        if (userInput != null & userInput.length() > 0) {
-                            for (PlayerHandler client : YahtzeeServer.clients) {
-                                client.out.println(userInput);
-                                client.out.flush();
-                                Thread.currentThread();
-                            }
-                    }
-                    {
-                        if (hasPlayerFinished()) {
-                            pickNextPlayer();
-                        }
-                    }
-                }
-            else continue;
-            socket.close();
-        }
-    }catch (Exception e)
-    {
-        e.printStackTrace();
-    }
-}
-
-    private void startGame() throws IOException {
-        PlayerHandler chosen = clients.get(order);
-        chosen.out.println("player start"+chosen);
-        System.out.println("Player "+chosen+" will start now");
-    }
 
     private void pickNextPlayer() {
     }
@@ -96,44 +46,3 @@ public class YahtzeeServer extends Thread {
         }
 }
 
-class communicateWithPlayers extends Thread {
-    protected List<PlayerHandler> clients;
-    protected String userInput;
-    protected PrintWriter sendMessage; //writing to someone
-    protected BufferedReader getMessage; // take in message
-
-    public communicateWithPlayers(List<PlayerHandler> clients) {
-        this.clients = clients;
-        this.userInput = null;
-        this.start();
-    }
-
-    public void run() {
-        System.out.println("New Communication Thread Started");
-
-        try {
-            getMessage = new BufferedReader(new InputStreamReader(clients.get(0).client.getInputStream()));
-            if (getMessage.readLine().equals("Player wants to join")) {
-                clients.get(0).out.println(YahtzeeServer.createID());
-                
-            }
-        }catch (Exception e){}
-        try {
-            if (clients.size() > 0) {
-                this.console = new BufferedReader(new InputStreamReader(
-                        System.in));
-                while ((this.userInput = console.readLine()) != null) {
-                    if (userInput != null & userInput.length() > 0) {
-                        for (ClientHandler client : clients) {
-                            client.out.println(userInput);
-                            client.out.flush();
-                            Thread.currentThread();
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-}
