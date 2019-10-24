@@ -3,18 +3,16 @@ package yathzee;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.*;
 public class YahtzeeSinglePlayer {
 
 	static Socket yahtzeeSocket;
-	static int playerID = 0;
-	static int clientPort = 4545;
+	static int clientPort = 9090;
 	static InetAddress localHost;
 	static Object fromServer;
 	static String fromUser;
-	static PrintWriter sendMessage; //writing to someone
- 	static BufferedReader getMessage; // take in message
+	static PrintWriter out; //writing to someone
+ 	static BufferedReader in; // take in message
 
 	//Read an integer
 	public static int inputInt(String Prompt) {
@@ -403,9 +401,8 @@ public class YahtzeeSinglePlayer {
 		yahtzeeSocket = null;
 		localHost = InetAddress.getLocalHost();
 		yahtzeeSocket = new Socket(localHost, clientPort);
-		sendMessage = new PrintWriter(yahtzeeSocket.getOutputStream(), true);
-		getMessage = new BufferedReader(new InputStreamReader(yahtzeeSocket.getInputStream()));
-		BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+		out = new PrintWriter(yahtzeeSocket.getOutputStream(),true);
+		in = new BufferedReader(new InputStreamReader(yahtzeeSocket.getInputStream()));
 	}
 
 	public static void gameLauncher() {
@@ -485,21 +482,24 @@ public class YahtzeeSinglePlayer {
 		chooseWhatToScore - user chooses from canScoreThisRound and update currentScoreRecord */
 	}
 
-	public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
+	public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException 
+		{
 		initialiseConnection();
-		sendMessage.println("Player wants to join");
-		String buffer = null;
-		while (true)
+		System.out.println("Why th");
+		while(true)
+		{
+		String serverResponse;
+		//Thread.sleep(1000);
+		if (!in.ready())
 			{
-			fromServer = getMessage.readLine();
-				if (fromServer instanceof Integer) {
-					playerID = (int) fromServer;
-					System.out.println("Your ID is " + playerID);
-					System.out.println("You have been connected. Waiting for the server to start the game");
-				} else if (fromServer.equals("player start " + playerID))
-					break;
+			continue;
+			}
+		else
+			{
+			serverResponse = in.readLine();
+			System.out.println("Server says: " + serverResponse);
 
 			}
-			gameLauncher();
-	}
+		}
+		}
 	}
