@@ -485,20 +485,16 @@ public class YahtzeeSinglePlayer {
 	public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException 
 		{
 		initialiseConnection();
-		System.out.println("Why th");
 		while(true)
 		{
-		String serverResponse;
-		//Thread.sleep(1000);
-		if (!in.ready())
+		String serverResponse =  in.readLine();
+		if (serverResponse.equals("begin"))
 			{
-			continue;
+			gameLauncher();
 			}
 		else
 			{
-			serverResponse = in.readLine();
 			System.out.println("Server says: " + serverResponse);
-
 			}
 		}
 		}

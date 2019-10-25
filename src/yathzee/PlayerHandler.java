@@ -11,10 +11,10 @@ import java.util.ArrayList;
 
 
 public class PlayerHandler extends Thread {
-    protected static ArrayList<Socket> clients =  new ArrayList<>();;
-    private static ArrayList<BufferedReader> in = new ArrayList<>();// take in message
-	private static ArrayList<PrintWriter> out = new ArrayList<>();//writing to someone    
-	private static int numberOfPlayers = 0;
+    public static ArrayList<Socket> clients =  new ArrayList<>();;
+    public static ArrayList<BufferedReader> in = new ArrayList<>();// take in message
+    public static ArrayList<PrintWriter> out = new ArrayList<>();//writing to someone    
+    public static int numberOfPlayers = 0;
 
 
     public PlayerHandler(Socket player) throws IOException
@@ -31,8 +31,6 @@ public class PlayerHandler extends Thread {
 		System.out.println("Number of players is "+numberOfPlayers);
 		try {
 			out.get(numberOfPlayers-1).println("Your ID is "+numberOfPlayers);
-			out.get(numberOfPlayers-1).println("what is this?");
-			out.get(numberOfPlayers-1).println("what is this?");
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -54,10 +52,9 @@ public class PlayerHandler extends Thread {
 
 	private void startGame() 
 		{
-		System.out.println("The size of out array is "+out.size());
 		try 
 			{
-			out.get(1).println("Player 2 is playing.");
+			out.get(1).println("Player 1 is playing.");
 			out.get(0).println("begin");				
 			} 
 		catch (Exception e) 
@@ -98,4 +95,31 @@ public class PlayerHandler extends Thread {
 			}
 		}
     }
+
+class getPlayerMessage extends Thread 
+	{
+	
+	@Override
+    public void run() 
+		{
+		while (true)
+			{
+			for (int i = 0; i<PlayerHandler.clients.size(); i++)
+				{
+				try 
+					{
+					if(PlayerHandler.in.get(i).ready())
+						{
+						System.out.println("Message from client");
+						}
+					} 
+				catch (IOException e) 
+					{
+					e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+
 
