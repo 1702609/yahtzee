@@ -14,7 +14,7 @@ public class PlayerHandler extends Thread {
     public static ArrayList<Socket> clients =  new ArrayList<>();;
     public static ArrayList<BufferedReader> in = new ArrayList<>();// take in message
     public static ArrayList<PrintWriter> out = new ArrayList<>();//writing to someone    
-    public static int numberOfPlayers = 0;
+    public static int numberOfPlayers, bottomUp = 0;
 
 
     public PlayerHandler(Socket player) throws IOException
@@ -50,18 +50,21 @@ public class PlayerHandler extends Thread {
     	startGame();
     	}
 
-	private void startGame() 
+	public static void startGame() 
 		{
-		try 
+		bottomUp++;
+		for (int i = 0; i < numberOfPlayers; i++)
 			{
-			out.get(1).println("Player 1 is playing.");
-			out.get(0).println("begin");				
-			} 
-		catch (Exception e) 
-			{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			}	
+			if (i == bottomUp-1)
+				{		
+				out.get(i).println("begin");				
+				new getPlayerMessage().start();
+				}
+			else
+				{
+				out.get(i).println("Player "+ bottomUp +" is playing.");
+				}
+			}
 		}
 
 	private void notifyPlayersThatGameWillStart() 
@@ -86,7 +89,7 @@ public class PlayerHandler extends Thread {
 			try 
 				{
 				out.get(i).println("Waiting for players to join.");
-				out.get(i).println("Currently, "+YahtzeeServer.clients.size()+" have joined!");
+				out.get(i).println("Currently, "+numberOfPlayers+" have joined!");
 				}
 			catch (Exception e) 
 				{
@@ -102,15 +105,21 @@ class getPlayerMessage extends Thread
 	@Override
     public void run() 
 		{
+		String clientMsg;
+		outerloop:
 		while (true)
 			{
-			for (int i = 0; i<PlayerHandler.clients.size(); i++)
+			for (int i = 0; i<PlayerHandler.numberOfPlayers; i++)
 				{
 				try 
 					{
 					if(PlayerHandler.in.get(i).ready())
 						{
 						System.out.println("Message from client");
+						clientMsg = PlayerHandler.in.get(i).readLine();
+						System.out.println(clientMsg);
+						int score = Integer.parseInt(clientMsg.replaceAll("\\D+",""));
+						break outerloop;
 						}
 					} 
 				catch (IOException e) 
@@ -119,6 +128,7 @@ class getPlayerMessage extends Thread
 					}
 				}
 			}
+		PlayerHandler.startGame();
 		}
 	}
 

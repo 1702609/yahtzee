@@ -13,6 +13,7 @@ public class YahtzeeServer{
 	protected static int currentID = 0;
     protected static List<PlayerHandler> clients = new ArrayList<>();
 	protected static int PORT = 9090;
+	public static int numberOfRound = 1;
 
 	private static ExecutorService pool = Executors.newFixedThreadPool(4);
 
