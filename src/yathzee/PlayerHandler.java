@@ -52,7 +52,7 @@ public class PlayerHandler extends Thread {
 
 	public static void startGame() 
 		{
-		bottomUp++;
+		pickNextPlayer();
 		for (int i = 0; i < numberOfPlayers; i++)
 			{
 			if (i == bottomUp-1)
@@ -64,6 +64,16 @@ public class PlayerHandler extends Thread {
 				{
 				out.get(i).println("Player "+ bottomUp +" is playing.");
 				}
+			}
+		}
+
+	private static void pickNextPlayer() 
+		{
+		if (bottomUp != numberOfPlayers) bottomUp++;
+		else 
+			{
+			bottomUp = 1;
+			++YahtzeeServer.numberOfRound;
 			}
 		}
 
@@ -113,7 +123,7 @@ class getPlayerMessage extends Thread
 				{
 				try 
 					{
-					if(PlayerHandler.in.get(i).ready())
+					if(isPlayerFinished(i))
 						{
 						System.out.println("Message from client");
 						clientMsg = PlayerHandler.in.get(i).readLine();
@@ -129,6 +139,12 @@ class getPlayerMessage extends Thread
 				}
 			}
 		PlayerHandler.startGame();
+		}
+
+	private boolean isPlayerFinished(int activePlayer) throws IOException 
+		{
+		if(PlayerHandler.in.get(activePlayer).ready()) return true;
+		return false;
 		}
 	}
 

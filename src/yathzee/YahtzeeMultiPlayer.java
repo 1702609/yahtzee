@@ -52,8 +52,6 @@ public class YahtzeeMultiPlayer {
 	}//showDice
 
 	private static int showCurrentScore(int[][] currentScoreRecord) {
-		//Scoring Y FH LS SS 4K 3K On Tw Th Fo Fi Si C
-
 		int score = 0;
 		String[] options = {"Yahtzee", "Full-House", "Long-Straight", "Short-Straight", "Quad", "Triple", "Ones", "Twos", "Threes", "Fours", "Fives", "Sixes", "Chance"};
 
@@ -70,7 +68,6 @@ public class YahtzeeMultiPlayer {
 	}//showCurrentScore
 
 	private static int[][] whatCanBeScored(int[][] currentScoreRecord, int[] theDice) {
-		//Scoring Y FH LS SS 4K 3K On Tw Th Fo Fi Si C
 		//Updates canScoreThisRound
 
 		int[][] canScoreThisRound = new int[13][2];
@@ -80,10 +77,6 @@ public class YahtzeeMultiPlayer {
 		boolean found3K = false;
 		int ones = 0, twos = 0, threes = 0, fours = 0, fives = 0, sixes = 0;
 		Arrays.sort(theDice);
-
-		//Check the number scores
-		//Check first if the number has been scored
-		//If there is a score possible then note it
 
 		if (currentScoreRecord[0][0] == 0) {
 			//CHECK FOR YAHTZEE
@@ -366,16 +359,11 @@ public class YahtzeeMultiPlayer {
 	}//whatCanBeScored
 
 	private static int[][] chooseWhatToScore(int[][] currentScoreRecord, int[][] canScoreThisRound) {
-		//Scoring Y FH LS SS 4K 3K On Tw Th Fo Fi Si C
 
 		int[][] newScoreRecord = new int[13][2];
 		int[][] potentialChoice = {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
 		String[] options = {"Yahtzee", "Full-House", "Long-Straight", "Short-Straight", "Quad", "Triple", "Ones", "Twos", "Threes", "Fours", "Fives", "Sixes", "Chance"};
 		int choice = 0;
-
-		//Check to see if something has been scored and if it can be scored
-		//Is current score = 0 (it's not been scored) and can score = 1 (it can be scored)
-		//PotentialChoice is 0 (it's not been scored), 1 (it's been scored)
 
 		newScoreRecord = currentScoreRecord;
 		System.out.println("With your roll you can select...");
@@ -415,8 +403,6 @@ public class YahtzeeMultiPlayer {
 		boolean reroll = true;
 		int[] rerollDice = new int[5];
 		int rerollDie = 0;
-
-		System.out.println("Welcome to Yahtzee!");
 		
 		//Print current status and score
 		System.out.println("Round " + YahtzeeServer.numberOfRound + " of 13");
@@ -468,8 +454,9 @@ public class YahtzeeMultiPlayer {
 		System.out.println("You scored:");
 		int finalScore = showCurrentScore(currentScoreRecord);
 		out.println("finish "+finalScore);
-	  	/*
-		Scoring - Y FH LS SS 4K 3K On Tw Th Fo Fi Si C
+	  	
+		/*
+	  	 * 
 		currentScoreRecord - For each of the above {status, score}
 		canScoreThisRound - For each of the above  {can it be scored? i.e. can be scored and not previously scored, score}
 		theDice - {what's been rolled this turn}
@@ -481,6 +468,7 @@ public class YahtzeeMultiPlayer {
 
 	public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException 
 		{
+		System.out.println("Welcome to Yahtzee!");
 		initialiseConnection();
 		while(true)
 		{
