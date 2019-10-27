@@ -73,7 +73,6 @@ public class PlayerHandler extends Thread {
 		else 
 			{
 			bottomUp = 1;
-			++YahtzeeServer.numberOfRound;
 			}
 		}
 

@@ -13,7 +13,6 @@ public class YahtzeeServer{
 	protected static int currentID = 0;
     protected static List<PlayerHandler> clients = new ArrayList<>();
 	protected static int PORT = 9090;
-	public static int numberOfRound = 1;
 
 	private static ExecutorService pool = Executors.newFixedThreadPool(4);
 
@@ -31,19 +30,6 @@ public class YahtzeeServer{
 			pool.execute(playerThread);
 			}
         }
+	}
 
-    static synchronized public int createID()
-    	{
-        return ++currentID;
-    	} //if two player join at the same time, they have to take turns
-
-
-    private void pickNextPlayer() {
-    }
-
-    private boolean hasPlayerFinished()
-        {
-        return false;
-        }
-}
 

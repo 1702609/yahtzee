@@ -11,8 +11,11 @@ public class YahtzeeMultiPlayer {
 	static InetAddress localHost;
 	static Object fromServer;
 	static String fromUser;
+	static int[][] currentScoreRecord = new int[][]{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
+	static int[][] canScoreThisRound = new int[][]{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
 	static PrintWriter out; //writing to someone
  	static BufferedReader in; // take in message
+	static int numberOfRound = 0;
 
 	//Read an integer
 	public static int inputInt(String Prompt) {
@@ -394,8 +397,7 @@ public class YahtzeeMultiPlayer {
 	}
 
 	public static void gameLauncher() {
-		int[][] currentScoreRecord = new int[][]{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
-		int[][] canScoreThisRound = new int[][]{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
+		numberOfRound += 1;
 		int currentScore = 0;
 		int[] theDice = new int[]{0, 0, 0, 0, 0};// dice scores
 		int noRolls = 0;
@@ -405,7 +407,7 @@ public class YahtzeeMultiPlayer {
 		int rerollDie = 0;
 		
 		//Print current status and score
-		System.out.println("Round " + YahtzeeServer.numberOfRound + " of 13");
+		System.out.println("Round " + numberOfRound + " of 13");
 		System.out.println("Current score is " + currentScore);
 		System.out.println("Your current scoring status is:");
 		currentScore = showCurrentScore(currentScoreRecord);
