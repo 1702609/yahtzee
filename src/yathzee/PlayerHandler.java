@@ -123,7 +123,7 @@ public class PlayerHandler extends Thread {
 
 	private static boolean gameStarted()
 		{
-		if (clients.size() >=2)
+		if (clients.size() >=2 && acceptingPlayerFlag)
 			{
 			System.out.println("Lets start the game now?");
 			Scanner input = new Scanner(System.in);

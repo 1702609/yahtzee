@@ -15,9 +15,6 @@ public class YahtzeeServer{
     protected static List<PlayerHandler> clients = new ArrayList<>();
 	protected static int PORT = 9090;
 
-	private static ExecutorService pool = Executors.newFixedThreadPool(4);
-
-	
     public static void main(String[] args) throws IOException
         {
     	ServerSocket listner = new ServerSocket(PORT);
@@ -28,7 +25,7 @@ public class YahtzeeServer{
 			System.out.println("[SERVER] Connected to client");
 			PlayerHandler playerThread = new PlayerHandler(client);
 			clients.add(playerThread);
-			pool.execute(playerThread);
+			playerThread.start();
 			}
         }
 
