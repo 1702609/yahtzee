@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class PlayerHandler extends Thread {
@@ -15,20 +16,27 @@ public class PlayerHandler extends Thread {
     public static ArrayList<BufferedReader> in = new ArrayList<>();// take in message
     public static ArrayList<PrintWriter> out = new ArrayList<>();//writing to someone    
     public static int numberOfPlayers, bottomUp = 0;
-
+	public static boolean acceptingPlayerFlag = true;
 
     public PlayerHandler(Socket player) throws IOException
     	{
-		numberOfPlayers++;
-        clients.add(player);
-        in.add(new BufferedReader(new InputStreamReader(clients.get(numberOfPlayers-1).getInputStream())));
-        out.add(new PrintWriter((clients.get(numberOfPlayers-1).getOutputStream()),true));
-    	}
+		if (!acceptingPlayerFlag)
+			{
+			PrintWriter out = new PrintWriter(player.getOutputStream(),true);
+			out.println("-1");
+			}
+		else
+			{
+			numberOfPlayers++;
+			clients.add(player);
+			in.add(new BufferedReader(new InputStreamReader(clients.get(numberOfPlayers - 1).getInputStream())));
+			out.add(new PrintWriter((clients.get(numberOfPlayers - 1).getOutputStream()), true));
+			}
+		}
     
     @Override
     public void run() 
     	{
-		System.out.println("Number of players is "+numberOfPlayers);
 		try {
 			out.get(numberOfPlayers-1).println("Your ID is "+numberOfPlayers);
 
@@ -37,7 +45,7 @@ public class PlayerHandler extends Thread {
 			e.printStackTrace();
 		}
 		boolean havePlayersBeenToldToWait = false;
-		while (clients.size() <2)
+		while (acceptingPlayer())
 			{
 			if (havePlayersBeenToldToWait) continue;
 			else
@@ -106,7 +114,33 @@ public class PlayerHandler extends Thread {
 				}
 			}
 		}
-    }
+
+	private static boolean acceptingPlayer()
+	{
+		if (gameStarted()) return false;
+		else return true;
+	}
+
+	private static boolean gameStarted()
+		{
+		if (clients.size() >=2)
+			{
+			System.out.println("Lets start the game now?");
+			Scanner input = new Scanner(System.in);
+			String response=input.nextLine();
+			if (response.equals("y"))
+				{
+				acceptingPlayerFlag = false;
+				return true;
+				}
+			else return false;
+			}
+		else return false;
+		}
+
+	}
+
+
 
 class getPlayerMessage extends Thread 
 	{

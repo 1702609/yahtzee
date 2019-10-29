@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.io.*;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -20,7 +21,7 @@ public class YahtzeeServer{
     public static void main(String[] args) throws IOException
         {
     	ServerSocket listner = new ServerSocket(PORT);
-		while(true) 
+		while(true)
 			{
 			System.out.println("[SERVER] Waiting for client connection...");
 			Socket client = listner.accept();
@@ -30,6 +31,8 @@ public class YahtzeeServer{
 			pool.execute(playerThread);
 			}
         }
-	}
+
+
+}
 
 

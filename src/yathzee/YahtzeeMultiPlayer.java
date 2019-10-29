@@ -479,6 +479,11 @@ public class YahtzeeMultiPlayer {
 			{
 			gameLauncher();
 			}
+		if (serverResponse.equals("-1"))
+			{
+			System.out.println("Server already started a game. Try again later");
+			break;
+			}
 		else
 			{
 			System.out.println("Server says: " + serverResponse);
