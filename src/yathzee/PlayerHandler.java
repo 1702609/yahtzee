@@ -3,8 +3,6 @@ package yathzee;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -15,7 +13,7 @@ public class PlayerHandler extends Thread {
     public static ArrayList<Socket> clients =  new ArrayList<>();;
     public static ArrayList<BufferedReader> in = new ArrayList<>();// take in message
     public static ArrayList<PrintWriter> out = new ArrayList<>();//writing to someone    
-    public static int numberOfPlayers, bottomUp = 0;
+    public static int numberOfPlayers, index = 0;
 	public static boolean acceptingPlayerFlag = true;
 
     public PlayerHandler(Socket player) throws IOException
@@ -39,48 +37,42 @@ public class PlayerHandler extends Thread {
     	{
 		try {
 			out.get(numberOfPlayers-1).println("Your ID is "+numberOfPlayers);
-
+			out.get(numberOfPlayers-1).println(tellPlayersToWait());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		boolean havePlayersBeenToldToWait = false;
-		while (acceptingPlayer())
+		tellPlayersToWait();
+		while (!acceptingPlayer())
 			{
-			if (havePlayersBeenToldToWait) continue;
-			else
-				{
-				tellPlayersToWait();
-				havePlayersBeenToldToWait = true;
-				}
+			notifyPlayersThatGameWillStart();
+			startGame();
 			}
-		notifyPlayersThatGameWillStart();
-    	startGame();
     	}
 
 	public static void startGame() 
 		{
 		pickNextPlayer();
-		for (int i = 0; i < numberOfPlayers; i++)
+		for (int i = 0; i < out.size(); i++)
 			{
-			if (i == bottomUp-1)
+			if (i == index-1)
 				{		
 				out.get(i).println("begin");				
 				new getPlayerMessage().start();
 				}
 			else
 				{
-				out.get(i).println("Player "+ bottomUp +" is playing.");
+				out.get(i).println("Player "+ index +" is playing.");
 				}
 			}
 		}
 
 	private static void pickNextPlayer() 
 		{
-		if (bottomUp != numberOfPlayers) bottomUp++;
+		if (index != numberOfPlayers) index++;
 		else 
 			{
-			bottomUp = 1;
+			index = 0;
 			}
 		}
 
@@ -99,20 +91,11 @@ public class PlayerHandler extends Thread {
 			}
 		}
 
-	private void tellPlayersToWait() 
+	private String tellPlayersToWait()
 		{
-		for (int i = 0; i < out.size(); i++)
-			{
-			try 
-				{
-				out.get(i).println("Waiting for players to join.");
-				out.get(i).println("Currently, "+numberOfPlayers+" have joined!");
-				}
-			catch (Exception e) 
-				{
-				e.printStackTrace();
-				}
-			}
+		String msg;
+		msg = "Waiting for players to join.\nCurrently, "+numberOfPlayers+" have joined!";
+		return msg;
 		}
 
 	private static boolean acceptingPlayer()

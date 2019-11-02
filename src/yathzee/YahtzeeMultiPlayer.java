@@ -16,6 +16,7 @@ public class YahtzeeMultiPlayer {
 	static PrintWriter out; //writing to someone
  	static BufferedReader in; // take in message
 	static int numberOfRound = 0;
+	static int choice = 0;
 
 	//Read an integer
 	public static int inputInt(String Prompt) {
@@ -366,7 +367,6 @@ public class YahtzeeMultiPlayer {
 		int[][] newScoreRecord = new int[13][2];
 		int[][] potentialChoice = {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
 		String[] options = {"Yahtzee", "Full-House", "Long-Straight", "Short-Straight", "Quad", "Triple", "Ones", "Twos", "Threes", "Fours", "Fives", "Sixes", "Chance"};
-		int choice = 0;
 
 		newScoreRecord = currentScoreRecord;
 		System.out.println("With your roll you can select...");
@@ -455,8 +455,7 @@ public class YahtzeeMultiPlayer {
 		System.out.println("Your final score is " + currentScore);
 		System.out.println("You scored:");
 		int finalScore = showCurrentScore(currentScoreRecord);
-		out.println("finish "+finalScore);
-	  	
+		uploadScore(currentScoreRecord,currentScore);	  	
 		/*
 	  	 * 
 		currentScoreRecord - For each of the above {status, score}
@@ -468,7 +467,13 @@ public class YahtzeeMultiPlayer {
 		chooseWhatToScore - user chooses from canScoreThisRound and update currentScoreRecord */
 	}
 
-	public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException 
+    private static void uploadScore(int[][] scoreOption, int whatPlayerPicked) 
+    	{
+    	System.out.println("The player man picked "+whatPlayerPicked);
+    	System.out.println(Arrays.deepToString(scoreOption));
+    	}
+
+    public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException 
 		{
 		System.out.println("Welcome to Yahtzee!");
 		initialiseConnection();
