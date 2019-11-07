@@ -6,20 +6,20 @@ import java.net.Socket;
 import java.util.*;
 public class YahtzeeMultiPlayer {
 
-	static Socket yahtzeeSocket;
-	static int clientPort = 9090;
-	static InetAddress localHost;
-	static Object fromServer;
-	static String fromUser;
-	static int[][] currentScoreRecord = new int[][]{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
-	static int[][] canScoreThisRound = new int[][]{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
-	static PrintWriter out; //writing to someone
- 	static BufferedReader in; // take in message
-	static int numberOfRound = 0;
-	static int choice = 0;
+	Socket yahtzeeSocket;
+	int clientPort = 9090;
+	InetAddress localHost;
+	Object fromServer;
+	String fromUser;
+	int[][] currentScoreRecord = new int[][]{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
+	int[][] canScoreThisRound = new int[][]{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
+	PrintWriter out; //writing to someone
+	BufferedReader in; // take in message
+	int numberOfRound = 0;
+	int choice = 0;
 
 	//Read an integer
-	public static int inputInt(String Prompt) {
+	public int inputInt(String Prompt) {
 		int result = 0;
 		try {
 			result = Integer.parseInt(input(Prompt).trim());
@@ -30,7 +30,7 @@ public class YahtzeeMultiPlayer {
 	}//inputInt
 
 	//Set up the input
-	public static String input(String prompt) {
+	public String input(String prompt) {
 		String inputLine = "";
 		System.out.print(prompt);
 		try {
@@ -46,16 +46,16 @@ public class YahtzeeMultiPlayer {
 	}//input
 
 	//Six sided die roller
-	private static int die() {
+	private int die() {
 		Random r = new Random();
 		return r.nextInt(6) + 1;
 	}
 
-	private static void showDice(int[] theseDice) {
+	private void showDice(int[] theseDice) {
 		System.out.println("You rolled: " + theseDice[0] + " " + theseDice[1] + " " + theseDice[2] + " " + theseDice[3] + " " + theseDice[4]);
 	}//showDice
 
-	private static int showCurrentScore(int[][] currentScoreRecord) {
+	private int showCurrentScore(int[][] currentScoreRecord) {
 		int score = 0;
 		String[] options = {"Yahtzee", "Full-House", "Long-Straight", "Short-Straight", "Quad", "Triple", "Ones", "Twos", "Threes", "Fours", "Fives", "Sixes", "Chance"};
 
@@ -71,7 +71,7 @@ public class YahtzeeMultiPlayer {
 
 	}//showCurrentScore
 
-	private static int[][] whatCanBeScored(int[][] currentScoreRecord, int[] theDice) {
+	private int[][] whatCanBeScored(int[][] currentScoreRecord, int[] theDice) {
 		//Updates canScoreThisRound
 
 		int[][] canScoreThisRound = new int[13][2];
@@ -362,7 +362,7 @@ public class YahtzeeMultiPlayer {
 		return canScoreThisRound;
 	}//whatCanBeScored
 
-	private static int[][] chooseWhatToScore(int[][] currentScoreRecord, int[][] canScoreThisRound) {
+	private int[][] chooseWhatToScore(int[][] currentScoreRecord, int[][] canScoreThisRound) {
 
 		int[][] newScoreRecord = new int[13][2];
 		int[][] potentialChoice = {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
@@ -388,7 +388,7 @@ public class YahtzeeMultiPlayer {
 		return newScoreRecord;
 	}//chooseWhatToScore
 
-	private static void initialiseConnection() throws IOException {
+	private void initialiseConnection() throws IOException {
 		yahtzeeSocket = null;
 		localHost = InetAddress.getLocalHost();
 		yahtzeeSocket = new Socket(localHost, clientPort);
@@ -396,7 +396,7 @@ public class YahtzeeMultiPlayer {
 		in = new BufferedReader(new InputStreamReader(yahtzeeSocket.getInputStream()));
 	}
 
-	public static void gameLauncher() {
+	public void gameLauncher() {
 		numberOfRound += 1;
 		int currentScore = 0;
 		int[] theDice = new int[]{0, 0, 0, 0, 0};// dice scores
@@ -453,9 +453,8 @@ public class YahtzeeMultiPlayer {
 	
 		currentScore = showCurrentScore(currentScoreRecord);
 		System.out.println("Your final score is " + currentScore);
-		System.out.println("You scored:");
 		int finalScore = showCurrentScore(currentScoreRecord);
-		uploadScore(currentScoreRecord,currentScore);	  	
+		uploadScore(currentScoreRecord,currentScore);
 		/*
 	  	 * 
 		currentScoreRecord - For each of the above {status, score}
@@ -467,32 +466,50 @@ public class YahtzeeMultiPlayer {
 		chooseWhatToScore - user chooses from canScoreThisRound and update currentScoreRecord */
 	}
 
-    private static void uploadScore(int[][] scoreOption, int whatPlayerPicked) 
+    private void uploadScore(int[][] scoreOption, int whatPlayerPicked)
     	{
-    	System.out.println("The player man picked "+whatPlayerPicked);
     	System.out.println(Arrays.deepToString(scoreOption));
+    	out.println("finished");
     	}
 
-    public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException 
+    public static void main(String[] args) throws IOException
 		{
-		System.out.println("Welcome to Yahtzee!");
-		initialiseConnection();
-		while(true)
+		YahtzeeMultiPlayer mp = new YahtzeeMultiPlayer();
+		mp.startUp();
+		}
+
+	public void startUp()
 		{
-		String serverResponse =  in.readLine();
-		if (serverResponse.equals("begin"))
-			{
-			gameLauncher();
+		try {
+			System.out.println("Welcome to Yahtzee!");
+			initialiseConnection();
+			while (true) {
+				String serverResponse = in.readLine();
+				System.out.println("Server says: " + serverResponse);
+				if (serverResponse.equals("begin")) {
+					gameLauncher();
+					continue;
+				} else if (serverResponse.equals("-1")) {
+					System.out.println("Server already started a game. Try again later");
+					break;
+				}
 			}
-		if (serverResponse.equals("-1"))
+
+			}catch (Exception e)
+				{
+				e.printStackTrace();
+				}
+		}
+
+	private static void waitFunction()
+		{
+		try
 			{
-			System.out.println("Server already started a game. Try again later");
-			break;
+			Thread.sleep(1500);
 			}
-		else
+		catch (InterruptedException e)
 			{
-			System.out.println("Server says: " + serverResponse);
+			e.printStackTrace();
 			}
 		}
-		}
-	}
+}
