@@ -55,21 +55,43 @@ public class YahtzeeMultiPlayer {
 		System.out.println("You rolled: " + theseDice[0] + " " + theseDice[1] + " " + theseDice[2] + " " + theseDice[3] + " " + theseDice[4]);
 	}//showDice
 
-	private int showCurrentScore(int[][] currentScoreRecord) {
+	private int currentScore()
+		{
 		int score = 0;
 		String[] options = {"Yahtzee", "Full-House", "Long-Straight", "Short-Straight", "Quad", "Triple", "Ones", "Twos", "Threes", "Fours", "Fives", "Sixes", "Chance"};
 
 		//Calculate current score
-		for (int i = 0; i < currentScoreRecord.length; i++) {
+		for (int i = 0; i < currentScoreRecord.length; i++)
+			{
 			score = score + currentScoreRecord[i][1];
-		}//endfor
-		//Show what's been scored
-		for (int i = 0; i < 13; i++) {
-			System.out.println(options[i] + " scoring " + currentScoreRecord[i][1] + " points");
-		}
+			}
 		return score;
+		}
 
-	}//showCurrentScore
+	private void showCurrentScore()
+		{
+		String[] options = {"Yahtzee", "Full-House", "Long-Straight", "Short-Straight", "Quad", "Triple", "Ones", "Twos", "Threes", "Fours", "Fives", "Sixes", "Chance"};
+		String leftAlignFormat = "| %-15s | %-8d |%n";
+		System.out.format("+-----------------+----------+%n");
+		String playerID = "Player "+"1";
+		System.out.format("| Score Type      | "+playerID+" |%n");
+		System.out.format("+-----------------+----------+%n");
+		System.out.format(leftAlignFormat, "Yahtzee",currentScoreRecord[0][1]);
+		System.out.format(leftAlignFormat, "Full-House",currentScoreRecord[1][1]);
+		System.out.format(leftAlignFormat, "Long-Straight",currentScoreRecord[2][1]);
+		System.out.format(leftAlignFormat, "Short-Straight",currentScoreRecord[3][1]);
+		System.out.format(leftAlignFormat, "Quad",currentScoreRecord[4][1]);
+		System.out.format(leftAlignFormat, "Triple",currentScoreRecord[5][1]);
+		System.out.format(leftAlignFormat, "Ones",currentScoreRecord[6][1]);
+		System.out.format(leftAlignFormat, "Twos",currentScoreRecord[7][1]);
+		System.out.format(leftAlignFormat, "Threes",currentScoreRecord[8][1]);
+		System.out.format(leftAlignFormat, "Fours",currentScoreRecord[9][1]);
+		System.out.format(leftAlignFormat, "Fives",currentScoreRecord[10][1]);
+		System.out.format(leftAlignFormat, "Sixes",currentScoreRecord[11][1]);
+		System.out.format(leftAlignFormat, "Chance",currentScoreRecord[12][1]);
+		System.out.format("+-----------------+----------+%n");
+
+		}
 
 	private int[][] whatCanBeScored(int[][] currentScoreRecord, int[] theDice) {
 		//Updates canScoreThisRound
@@ -410,8 +432,7 @@ public class YahtzeeMultiPlayer {
 		System.out.println("Round " + numberOfRound + " of 13");
 		System.out.println("Current score is " + currentScore);
 		System.out.println("Your current scoring status is:");
-		currentScore = showCurrentScore(currentScoreRecord);
-
+		showCurrentScore();
 		//Roll the dice
 		for (int i = 0; i < 5; i++) {
 			theDice[i] = die();// sets the dice values
@@ -449,11 +470,10 @@ public class YahtzeeMultiPlayer {
 		//User chooses
 		currentScoreRecord = chooseWhatToScore(currentScoreRecord, canScoreThisRound);
 		//Now print total score so far
-		showCurrentScore(currentScoreRecord);
+		showCurrentScore();
 	
-		currentScore = showCurrentScore(currentScoreRecord);
+		currentScore = currentScore();
 		System.out.println("Your final score is " + currentScore);
-		int finalScore = showCurrentScore(currentScoreRecord);
 		uploadScore(currentScoreRecord,currentScore);
 		/*
 	  	 * 
