@@ -134,9 +134,17 @@ class GameLauncher extends Thread
 			int bestPlayer = findHighScore();
 			for (int i = 0; i < numberOfPlayers; i++)
 				{
-				int tempId = bestPlayer+1;
-				String msg = "The winner is player "+tempId+" scoring with "+everyoneScore[bestPlayer];
-				YahtzeeServer.clients.get(i).sendMessage(msg);
+                if (i != bestPlayer)
+                    {
+                    int tempId = bestPlayer + 1;
+                    String msg = "The winner is player " + tempId + " scoring with " + everyoneScore[bestPlayer];
+                    YahtzeeServer.clients.get(i).sendMessage(msg);
+                    }
+				else
+                    {
+                    String msg = "Well done! You are the winner!";
+                    YahtzeeServer.clients.get(i).sendMessage(msg);
+                    }
 				}
 			}
 

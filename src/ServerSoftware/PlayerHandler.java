@@ -82,7 +82,7 @@ public class PlayerHandler extends Thread {
 	{
 		try
 		{
-			Thread.sleep(1500);
+			Thread.sleep(750);
 		}
 		catch (InterruptedException e)
 		{

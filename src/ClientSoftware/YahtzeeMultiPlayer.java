@@ -1,5 +1,6 @@
 package ClientSoftware;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -8,6 +9,7 @@ public class YahtzeeMultiPlayer {
 
 	Socket yahtzeeSocket;
 	int clientPort = 9090;
+	int ID;
 	InetAddress localHost;
 	int[][] currentScoreRecord = new int[][]{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
 	int[][] canScoreThisRound = new int[][]{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
@@ -71,7 +73,7 @@ public class YahtzeeMultiPlayer {
 		String[] options = {"Yahtzee", "Full-House", "Long-Straight", "Short-Straight", "Quad", "Triple", "Ones", "Twos", "Threes", "Fours", "Fives", "Sixes", "Chance"};
 		String leftAlignFormat = "| %-15s | %-8d |%n";
 		System.out.format("+-----------------+----------+%n");
-		String playerID = "Player "+"1";
+		String playerID = "Player "+ID;
 		System.out.format("| Score Type      | "+playerID+" |%n");
 		System.out.format("+-----------------+----------+%n");
 		System.out.format(leftAlignFormat, "Yahtzee",currentScoreRecord[0][1]);
@@ -504,14 +506,26 @@ public class YahtzeeMultiPlayer {
 			initialiseConnection();
 			while (true) {
 				String serverResponse = (String)in.readObject();
-				System.out.println("Server says: " + serverResponse);
-				if (serverResponse.equals("begin")) {
+				if (serverResponse.contains("ID"))
+                    {
+                    this.ID = Integer.valueOf(serverResponse.replaceAll("\\D+",""));
+                    }
+				else if (serverResponse.equals("begin")) {
 					gameLauncher();
 					continue;
 				} else if (serverResponse.equals("-1")) {
 					System.out.println("Server already started a game. Try again later");
 					break;
-				}
+				} else if (serverResponse.contains("winner")
+                    || serverResponse.contains("done"))
+                    {
+                    System.out.println(serverResponse);
+                    break;
+                    }
+                else
+                    {
+                    System.out.println("Server says: " + serverResponse);
+                    }
 			}
 
 			}catch (Exception e)
