@@ -91,7 +91,7 @@ public class YahtzeeMultiPlayer {
 
 		}
 
-	private int[][] whatCanBeScored(int[][] currentScoreRecord, int[] theDice) {
+	private int[][] whatCanBeScored(int[] theDice) {
 		//Updates canScoreThisRound
 
 		int[][] canScoreThisRound = new int[13][2];
@@ -382,7 +382,7 @@ public class YahtzeeMultiPlayer {
 		return canScoreThisRound;
 	}//whatCanBeScored
 
-	private Object[] chooseWhatToScore(int[][] currentScoreRecord, int[][] canScoreThisRound) {
+	private Object[] chooseWhatToScore() {
 
 		Object[] chosenScore = new Object[2];
 		int[][] potentialChoice = {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
@@ -401,6 +401,8 @@ public class YahtzeeMultiPlayer {
 		//Choose and update score
 		choice = inputInt("Choose one choice!");
 		System.out.println("You have chosen " + options[choice]);
+		currentScoreRecord[choice][0] = 1;
+		currentScoreRecord[choice][1] = canScoreThisRound[choice][1];
 		chosenScore[0] = options[choice];
 		chosenScore[1] = canScoreThisRound[choice][1];
 
@@ -427,7 +429,6 @@ public class YahtzeeMultiPlayer {
 
 		//Print current status and score
 		System.out.println("Round " + numberOfRound + " of 13");
-		System.out.println("Current score is " + currentScore);
 		System.out.println("Your current scoring status is:");
 		showCurrentScore();
 		//Roll the dice
@@ -463,9 +464,9 @@ public class YahtzeeMultiPlayer {
 			}
 		}
 		//What can be scored?
-		canScoreThisRound = whatCanBeScored(currentScoreRecord, theDice);
+		canScoreThisRound = whatCanBeScored(theDice);
 		//User chooses
-        chosenScore = chooseWhatToScore(currentScoreRecord, canScoreThisRound);
+        chosenScore = chooseWhatToScore();
 		//Now print total score so far
 		showCurrentScore();
 	
