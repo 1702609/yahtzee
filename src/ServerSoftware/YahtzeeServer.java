@@ -1,16 +1,15 @@
-package yathzee;
+package ServerSoftware;
 
 import java.net.*;
 import java.util.ArrayList;
 import java.io.*;
 import java.util.List;
-import java.util.Scanner;
 
 public class YahtzeeServer{
 
 	protected static int playerID = 0;
     protected static List<PlayerHandler> clients = new ArrayList<>();
-	protected static int PORT = 9090;
+	protected final static int PORT = 9090;
 
     public static void main(String[] args) throws IOException
         {
@@ -91,65 +90,95 @@ class GameLauncher extends Thread
 	{
 	private int numberOfPlayers = YahtzeeServer.clients.size();
 	private int currentlyPlaying = 0;
+	private Object [] tempScore;
 
 	@Override
 	public void run()
 		{
 		notifyPlayersThatGameWillStart();
-		startGame();
+		gameSequence();
 		}
 
-        private void pickNextPlayer()
-            {
-            if (currentlyPlaying+1 == numberOfPlayers) //when it reaches the end of the array
-                {
-                currentlyPlaying = 0;
-                }
-            else currentlyPlaying++;
-            startGame();
-            }
-
-        private void waitUntilPlayerIsFinished ()
-            {
-            while(true)
-                {
-                try
-                    {
-                    Thread.sleep(2000);
-                    if (YahtzeeServer.clients.get(currentlyPlaying).isRoundComplete())
-                        {
-						pickNextPlayer();
-						}
-                    }
-                catch (Exception e)
-                    {
-                    e.printStackTrace();
-                    }
-                }
-            }
-
-        private void notifyPlayersThatGameWillStart()
+	private void gameSequence()
+		{
+		while(true)
 			{
-			for (int i = 0; i < numberOfPlayers; i++)
+			startGame();
+			waitUntilPlayerIsFinished();
+			retrieveScore();
+			displayScoreToOthers();
+			pickNextPlayer();
+			}
+		}
+
+		private void pickNextPlayer()
+		{
+		if (currentlyPlaying+1 == numberOfPlayers) //when it reaches the end of the array
+			{
+			currentlyPlaying = 0;
+			}
+		else currentlyPlaying++;
+		}
+
+	private void waitUntilPlayerIsFinished ()
+		{
+		while(true)
+			{
+			try
 				{
-				YahtzeeServer.clients.get(i).sendMessage("Get Ready!!!");
+				Thread.sleep(2000);
+				if (YahtzeeServer.clients.get(currentlyPlaying).isRoundComplete())
+					{
+					System.out.println("Hello");
+					break;
+					}
+				}
+			catch (Exception e)
+				{
+				e.printStackTrace();
 				}
 			}
+		}
 
-		public void startGame()
+	private void retrieveScore()
+		{
+		tempScore =YahtzeeServer.clients.get(currentlyPlaying).getSelectedScore();
+		}
+
+	private void displayScoreToOthers()
+		{
+		for (int i = 0; i < numberOfPlayers; i++)
 			{
-			for (int i = 0; i < numberOfPlayers; i++)
+			if (currentlyPlaying != i)
 				{
-				if (currentlyPlaying == i)
-					{
-					YahtzeeServer.clients.get(i).sendMessage("begin");
-					}
-				else if (currentlyPlaying != i)
-					{
-					int tempId = currentlyPlaying+1;
-					YahtzeeServer.clients.get(i).sendMessage("Player "+ tempId +" is playing now.");
-					}
+				int tempId = currentlyPlaying+1;
+				String msg = "Player "+tempId+" has choosen "+ tempScore[0]+" with a score of "+tempScore[1];
+				YahtzeeServer.clients.get(i).sendMessage(msg);
 				}
-            waitUntilPlayerIsFinished();
-            }
+			}
+		}
+
+	private void notifyPlayersThatGameWillStart()
+		{
+		for (int i = 0; i < numberOfPlayers; i++)
+			{
+			YahtzeeServer.clients.get(i).sendMessage("Get Ready!!!");
+			}
+		}
+
+	public void startGame()
+		{
+		for (int i = 0; i < numberOfPlayers; i++)
+			{
+			if (currentlyPlaying == i)
+				{
+				YahtzeeServer.clients.get(i).sendMessage("begin");
+				}
+			else if (currentlyPlaying != i)
+				{
+				int tempId = currentlyPlaying+1;
+				YahtzeeServer.clients.get(i).sendMessage("Player "+ tempId +" is playing now.");
+				}
+			}
+		}
 	}

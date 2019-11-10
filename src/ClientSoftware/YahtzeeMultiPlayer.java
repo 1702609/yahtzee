@@ -1,4 +1,4 @@
-package yathzee;
+package ClientSoftware;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -9,12 +9,10 @@ public class YahtzeeMultiPlayer {
 	Socket yahtzeeSocket;
 	int clientPort = 9090;
 	InetAddress localHost;
-	Object fromServer;
-	String fromUser;
 	int[][] currentScoreRecord = new int[][]{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
 	int[][] canScoreThisRound = new int[][]{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
-	PrintWriter out; //writing to someone
-	BufferedReader in; // take in message
+	ObjectOutputStream out; //writing to someone
+	ObjectInputStream in; // take in message
 	int numberOfRound = 0;
 	int choice = 0;
 
@@ -384,13 +382,12 @@ public class YahtzeeMultiPlayer {
 		return canScoreThisRound;
 	}//whatCanBeScored
 
-	private int[][] chooseWhatToScore(int[][] currentScoreRecord, int[][] canScoreThisRound) {
+	private Object[] chooseWhatToScore(int[][] currentScoreRecord, int[][] canScoreThisRound) {
 
-		int[][] newScoreRecord = new int[13][2];
+		Object[] chosenScore = new Object[2];
 		int[][] potentialChoice = {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
 		String[] options = {"Yahtzee", "Full-House", "Long-Straight", "Short-Straight", "Quad", "Triple", "Ones", "Twos", "Threes", "Fours", "Fives", "Sixes", "Chance"};
 
-		newScoreRecord = currentScoreRecord;
 		System.out.println("With your roll you can select...");
 		//Present choices - check if it has been scored and if it can be scored
 		for (int i = 0; i < 13; i++) {
@@ -404,18 +401,17 @@ public class YahtzeeMultiPlayer {
 		//Choose and update score
 		choice = inputInt("Choose one choice!");
 		System.out.println("You have chosen " + options[choice]);
-		newScoreRecord[choice][0] = 1;
-		newScoreRecord[choice][1] = canScoreThisRound[choice][1];
+		chosenScore[0] = options[choice];
+		chosenScore[1] = canScoreThisRound[choice][1];
 
-		return newScoreRecord;
+		return chosenScore;
 	}//chooseWhatToScore
 
 	private void initialiseConnection() throws IOException {
-		yahtzeeSocket = null;
 		localHost = InetAddress.getLocalHost();
 		yahtzeeSocket = new Socket(localHost, clientPort);
-		out = new PrintWriter(yahtzeeSocket.getOutputStream(),true);
-		in = new BufferedReader(new InputStreamReader(yahtzeeSocket.getInputStream()));
+		out = new ObjectOutputStream(yahtzeeSocket.getOutputStream());
+		in = new ObjectInputStream(yahtzeeSocket.getInputStream());
 	}
 
 	public void gameLauncher() {
@@ -427,7 +423,8 @@ public class YahtzeeMultiPlayer {
 		boolean reroll = true;
 		int[] rerollDice = new int[5];
 		int rerollDie = 0;
-		
+		Object[] chosenScore;
+
 		//Print current status and score
 		System.out.println("Round " + numberOfRound + " of 13");
 		System.out.println("Current score is " + currentScore);
@@ -468,29 +465,30 @@ public class YahtzeeMultiPlayer {
 		//What can be scored?
 		canScoreThisRound = whatCanBeScored(currentScoreRecord, theDice);
 		//User chooses
-		currentScoreRecord = chooseWhatToScore(currentScoreRecord, canScoreThisRound);
+        chosenScore = chooseWhatToScore(currentScoreRecord, canScoreThisRound);
 		//Now print total score so far
 		showCurrentScore();
 	
 		currentScore = currentScore();
 		System.out.println("Your final score is " + currentScore);
-		uploadScore(currentScoreRecord,currentScore);
+		uploadScore(chosenScore);
 		/*
-	  	 * 
-		currentScoreRecord - For each of the above {status, score}
-		canScoreThisRound - For each of the above  {can it be scored? i.e. can be scored and not previously scored, score}
-		theDice - {what's been rolled this turn}
-		currentScore - current score
+	  	 *
 		showCurrentScore - calculate and show the current score from currentScoreRecord
 		whatCanBeScored - update canScoreThisRound from theDice and currentScoreRecord
 		chooseWhatToScore - user chooses from canScoreThisRound and update currentScoreRecord */
 	}
 
-    private void uploadScore(int[][] scoreOption, int whatPlayerPicked)
+    private void uploadScore(Object[] chosenScore)
     	{
-    	System.out.println(Arrays.deepToString(scoreOption));
-    	out.println("finished");
-    	}
+		try {
+			out.writeObject(chosenScore);
+			}
+		catch (IOException e)
+			{
+			e.printStackTrace();
+			}
+		}
 
     public static void main(String[] args) throws IOException
 		{
@@ -504,7 +502,7 @@ public class YahtzeeMultiPlayer {
 			System.out.println("Welcome to Yahtzee!");
 			initialiseConnection();
 			while (true) {
-				String serverResponse = in.readLine();
+				String serverResponse = (String)in.readObject();
 				System.out.println("Server says: " + serverResponse);
 				if (serverResponse.equals("begin")) {
 					gameLauncher();
