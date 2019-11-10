@@ -384,7 +384,7 @@ public class YahtzeeMultiPlayer {
 
 	private Object[] chooseWhatToScore() {
 
-		Object[] chosenScore = new Object[2];
+		Object[] chosenScore = new Object[3];
 		int[][] potentialChoice = {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
 		String[] options = {"Yahtzee", "Full-House", "Long-Straight", "Short-Straight", "Quad", "Triple", "Ones", "Twos", "Threes", "Fours", "Fives", "Sixes", "Chance"};
 
@@ -405,7 +405,7 @@ public class YahtzeeMultiPlayer {
 		currentScoreRecord[choice][1] = canScoreThisRound[choice][1];
 		chosenScore[0] = options[choice];
 		chosenScore[1] = canScoreThisRound[choice][1];
-
+		chosenScore[2] = currentScore();
 		return chosenScore;
 	}//chooseWhatToScore
 
@@ -520,15 +520,4 @@ public class YahtzeeMultiPlayer {
 				}
 		}
 
-	private static void waitFunction()
-		{
-		try
-			{
-			Thread.sleep(1500);
-			}
-		catch (InterruptedException e)
-			{
-			e.printStackTrace();
-			}
-		}
 }

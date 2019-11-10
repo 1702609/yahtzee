@@ -40,6 +40,7 @@ public class PlayerHandler extends Thread {
 		try
 			{
 			out.writeObject(msg);
+			waitFunction();
 			}
 		catch (IOException e)
 			{
@@ -76,4 +77,18 @@ public class PlayerHandler extends Thread {
 		msg = "Waiting for players to join.";
 		return msg;
 		}
+
+	private static void waitFunction()
+	{
+		try
+		{
+			Thread.sleep(1500);
+		}
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
 	}
+
+}
+

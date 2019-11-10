@@ -91,6 +91,7 @@ class GameLauncher extends Thread
 	private int numberOfPlayers = YahtzeeServer.clients.size();
 	private int currentlyPlaying = 0;
 	private Object [] tempScore;
+	private int[] everyoneScore = new int[numberOfPlayers];
 
 	@Override
 	public void run()
@@ -101,7 +102,7 @@ class GameLauncher extends Thread
 
 	private void gameSequence()
 		{
-		while(true)
+		for(int i = 0; i < 3*numberOfPlayers; i++)
 			{
 			startGame();
 			waitUntilPlayerIsFinished();
@@ -109,7 +110,35 @@ class GameLauncher extends Thread
 			displayScoreToOthers();
 			pickNextPlayer();
 			}
+		announceWinner();
 		}
+
+		private int findHighScore()
+			{
+			int max = everyoneScore[0];
+			int index = 0;
+
+			for (int i = 0; i < everyoneScore.length; i++)
+				{
+				if (max < everyoneScore[i])
+					{
+					max = everyoneScore[i];
+					index = i;
+					}
+				}
+			return index;
+			}
+
+		private void announceWinner()
+			{
+			int bestPlayer = findHighScore();
+			for (int i = 0; i < numberOfPlayers; i++)
+				{
+				int tempId = bestPlayer+1;
+				String msg = "The winner is player "+tempId+" scoring with "+everyoneScore[bestPlayer];
+				YahtzeeServer.clients.get(i).sendMessage(msg);
+				}
+			}
 
 		private void pickNextPlayer()
 		{
@@ -143,6 +172,7 @@ class GameLauncher extends Thread
 	private void retrieveScore()
 		{
 		tempScore =YahtzeeServer.clients.get(currentlyPlaying).getSelectedScore();
+		everyoneScore[currentlyPlaying] = (int) tempScore[2];
 		}
 
 	private void displayScoreToOthers()
@@ -153,6 +183,8 @@ class GameLauncher extends Thread
 				{
 				int tempId = currentlyPlaying+1;
 				String msg = "Player "+tempId+" has choosen "+ tempScore[0]+" with a score of "+tempScore[1];
+				YahtzeeServer.clients.get(i).sendMessage(msg);
+				msg = "Player "+tempId+" has a total score of "+tempScore[2];
 				YahtzeeServer.clients.get(i).sendMessage(msg);
 				}
 			}
