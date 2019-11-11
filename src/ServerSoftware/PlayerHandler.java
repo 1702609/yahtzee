@@ -26,7 +26,7 @@ public class PlayerHandler extends Thread {
     	{
 		try
 			{
-			out.writeObject((String)"Your ID is "+id);
+			out.writeObject((String)"Your ID is "+id); //initial message
 			out.writeObject(tellPlayersToWait());
 			}
 		catch (IOException e)

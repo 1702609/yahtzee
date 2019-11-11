@@ -508,7 +508,8 @@ public class YahtzeeMultiPlayer {
 				String serverResponse = (String)in.readObject();
 				if (serverResponse.contains("ID"))
                     {
-                    this.ID = Integer.valueOf(serverResponse.replaceAll("\\D+",""));
+					System.out.println("Server says: " + serverResponse);
+					this.ID = Integer.valueOf(serverResponse.replaceAll("\\D+",""));
                     }
 				else if (serverResponse.equals("begin")) {
 					gameLauncher();

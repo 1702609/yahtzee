@@ -32,8 +32,8 @@ public class YahtzeeServer{
 			{
 			System.out.println("Rejection mode");
 			Socket client = listner.accept();
-			PrintWriter out = new PrintWriter(client.getOutputStream(),true);
-			out.println("-1");
+			ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
+			out.writeObject("-1");
 			}
         }
 }
@@ -166,7 +166,6 @@ class GameLauncher extends Thread
 				Thread.sleep(2000);
 				if (YahtzeeServer.clients.get(currentlyPlaying).isRoundComplete())
 					{
-					System.out.println("Hello");
 					break;
 					}
 				}
