@@ -10,13 +10,12 @@ public class YahtzeeServer{
 	protected static int playerID = 0;
     protected static List<PlayerHandler> clients = new ArrayList<>();
 	protected final static int PORT = 9090;
-
+	
     public static void main(String[] args) throws IOException
         {
     	ServerSocket listner = new ServerSocket(PORT);
-		LimitPlayer lp = new LimitPlayer();
-		lp.start();
-		while(!lp.isGameReady())
+		
+		while(!canTheServerStart())
 			{
 			System.out.println("Waiting for client connection...");
 			Socket client = listner.accept();
@@ -28,7 +27,7 @@ public class YahtzeeServer{
 			}
 		GameLauncher ge = new GameLauncher();
 		ge.start();
-		while(lp.isGameReady())
+		while(true)
 			{
 			System.out.println("Rejection mode");
 			Socket client = listner.accept();
@@ -36,55 +35,27 @@ public class YahtzeeServer{
 			out.writeObject("-1");
 			}
         }
-}
-
-class LimitPlayer extends Thread
-	{
-		public static boolean acceptingPlayerFlag = true;
-
-		@Override
-		public void run()
-			{
-			didUserAllowServer();
-			}
-
-		private static boolean didUserAllowServer() {
-			if (YahtzeeServer.clients.size() >= 2 && acceptingPlayerFlag) {
-				System.out.println("Lets start the game now?");
-				try {
-					int x = 6; // wait 6 seconds at most
-					BufferedReader serverIn = new BufferedReader(new InputStreamReader(System.in));
-					long startTime = System.currentTimeMillis();
-					while (true) {
-						if (!((System.currentTimeMillis() - startTime) < x * 1000
-								&& !serverIn.ready())) break;
-					}
-					if (serverIn.ready())
+    
+    private static boolean canTheServerStart() {
+		if (YahtzeeServer.clients.size() >= 2) {
+			System.out.println("Lets start the game now?");
+			try {
+				BufferedReader serverIn = new BufferedReader(new InputStreamReader(System.in));
+					
+					if (serverIn.readLine().equals("y"))
 						{
-						if (serverIn.readLine().equals("y"))
-							{
-							acceptingPlayerFlag = false;
-							return true;
-							}
+						return true;
 						}
-					else {
-						System.out.println("You did not enter data");
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+					
+			
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		return false;
 		}
-
-		public boolean isGameReady()
-			{
-			run();
-			 //This had to be done because if more players joined, the server still had to ask if they can start the game
-			return !acceptingPlayerFlag;
-			}
-
+	return false;
 	}
+    
+}
 
 class GameLauncher extends Thread
 	{
