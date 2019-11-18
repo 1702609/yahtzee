@@ -2,14 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5f9eade4-b83e-4a1f-83fb-170dce872edf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/ServerSoftware/GameLauncher.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/ServerSoftware/GameLauncher.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/ServerSoftware/YahtzeeServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/ServerSoftware/YahtzeeServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/yathzee/CreateTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/yathzee/CreateTable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/yathzee/TableList$EnumAlignment.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/yathzee/TableList$EnumAlignment.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/yathzee/TableList.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/yathzee/TableList.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/yathzee/YahtzeeSinglePlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/yathzee/YahtzeeSinglePlayer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ServerSoftware/YahtzeeServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerSoftware/YahtzeeServer.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />

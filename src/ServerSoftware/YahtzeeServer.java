@@ -3,28 +3,30 @@ package ServerSoftware;
 import java.net.*;
 import java.util.ArrayList;
 import java.io.*;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class YahtzeeServer{
 
 	protected static int playerID = 0;
-    protected static List<PlayerHandler> clients = new ArrayList<>();
+    protected static List<PlayerHandler> clients = Collections.synchronizedList(new ArrayList<>());
 	protected final static int PORT = 9090;
 	
     public static void main(String[] args) throws IOException
         {
-    	ServerSocket listner = new ServerSocket(PORT);
-		
-		while(!canTheServerStart())
-			{
-			System.out.println("Waiting for client connection...");
-			Socket client = listner.accept();
-			System.out.println("Connected to client");
-			PlayerHandler playerThread = new PlayerHandler(client,playerID+1);
-			clients.add(playerThread);
-			clients.get(playerID).start();
-			playerID++;
+		ServerSocket listner = new ServerSocket(PORT);
+		synchronized (clients) {
+			while (!canTheServerStart()) {
+				System.out.println("Waiting for client connection...");
+				Socket client = listner.accept();
+				System.out.println("Connected to client");
+				PlayerHandler playerThread = new PlayerHandler(client, playerID + 1);
+				clients.add(playerThread);
+				clients.get(playerID).start();
+				playerID++;
 			}
+		}
 		GameLauncher ge = new GameLauncher();
 		ge.start();
 		while(true)
