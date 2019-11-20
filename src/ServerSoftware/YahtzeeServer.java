@@ -3,7 +3,6 @@ package ServerSoftware;
 import java.net.*;
 import java.util.ArrayList;
 import java.io.*;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -12,21 +11,24 @@ public class YahtzeeServer{
 	protected static int playerID = 0;
     protected static List<PlayerHandler> clients = Collections.synchronizedList(new ArrayList<>());
 	protected final static int PORT = 9090;
-	
+	public static SharedScoreBoard scoreBoard;
+
     public static void main(String[] args) throws IOException
         {
+		scoreBoard = new SharedScoreBoard();
 		ServerSocket listner = new ServerSocket(PORT);
 		synchronized (clients) {
 			while (!canTheServerStart()) {
 				System.out.println("Waiting for client connection...");
 				Socket client = listner.accept();
 				System.out.println("Connected to client");
-				PlayerHandler playerThread = new PlayerHandler(client, playerID + 1);
+				PlayerHandler playerThread = new PlayerHandler(client, playerID + 1, scoreBoard);
 				clients.add(playerThread);
 				clients.get(playerID).start();
 				playerID++;
 			}
 		}
+		scoreBoard.startScoreBoard(clients.size());
 		GameLauncher ge = new GameLauncher();
 		ge.start();
 		while(true)
@@ -80,7 +82,7 @@ class GameLauncher extends Thread
 			startGame();
 			waitUntilPlayerIsFinished();
 			retrieveScore();
-			displayScoreToOthers();
+			updateSharedScoreBoard();
 			pickNextPlayer();
 			}
 		announceWinner();
@@ -156,7 +158,7 @@ class GameLauncher extends Thread
 		everyoneScore[currentlyPlaying] = (int) tempScore[2];
 		}
 
-	private void displayScoreToOthers()
+	private void updateSharedScoreBoard()
 		{
 		for (int i = 0; i < numberOfPlayers; i++)
 			{

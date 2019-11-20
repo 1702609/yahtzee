@@ -2,6 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5f9eade4-b83e-4a1f-83fb-170dce872edf" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ServerSoftware/GameLauncher.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/ServerSoftware/GameLauncher.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ServerSoftware/YahtzeeServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/ServerSoftware/YahtzeeServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ServerSoftware/PlayerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerSoftware/PlayerHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ServerSoftware/YahtzeeServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerSoftware/YahtzeeServer.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -13,6 +17,13 @@
   <component name="DefaultGradleProjectSettings">
     <option name="testRunner" value="GRADLE" />
     <option name="delegatedBuild" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>

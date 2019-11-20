@@ -8,22 +8,26 @@ import java.util.Scanner;
 
 public class PlayerHandler extends Thread {
     private Socket clients;
-	private ObjectOutputStream out;//writing to someone
-	private ObjectInputStream in;// take in message
-	private int id;
+	public static ObjectOutputStream out;//writing to someone
+	public static ObjectInputStream in;// take in message
+    public static SharedScoreBoard scoreBoard;
+    private int id;
 	private Object[] selectedScore;
 
-	public PlayerHandler(Socket player, int id) throws IOException
+	public PlayerHandler(Socket player, int id, SharedScoreBoard scoreBoard) throws IOException
     	{
 		clients = player;
 		this.id = id;
 		out = new ObjectOutputStream(clients.getOutputStream());
 		in = new ObjectInputStream(clients.getInputStream());
-		}
+		this.scoreBoard = scoreBoard;
+    	}
     
     @Override
     public void run() 
     	{
+        ScoreBoardUploader up = new ScoreBoardUploader();
+        up.run();
 		try
 			{
 			out.writeObject((String)"Your ID is "+id); //initial message
@@ -89,6 +93,29 @@ public class PlayerHandler extends Thread {
 			e.printStackTrace();
 		}
 	}
-
 }
+class ScoreBoardUploader extends Thread
+    {
+        @Override
+        public void run()
+            {
+            String msg = null;
+            try {
+                msg = (String) PlayerHandler.in.readObject();
+                }
+            catch (Exception e)
+                {
+                }
+            if (msg.equals("Whats the score?"))
+                {
+                try {
+                    PlayerHandler.scoreBoard.getCurrentScoreBoard();
+                    }
+                catch (InterruptedException e)
+                    {
+                    e.printStackTrace();
+                    }
+                }
+            }
+    }
 
