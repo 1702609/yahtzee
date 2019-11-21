@@ -505,28 +505,7 @@ public class YahtzeeMultiPlayer {
 			System.out.println("Welcome to Yahtzee!");
 			initialiseConnection();
 			while (true) {
-				String serverResponse = (String)in.readObject();
-				if (serverResponse.contains("ID"))
-                    {
-					System.out.println("Server says: " + serverResponse);
-					this.ID = Integer.valueOf(serverResponse.replaceAll("\\D+",""));
-                    }
-				else if (serverResponse.equals("begin")) {
-					gameLauncher();
-					continue;
-				} else if (serverResponse.equals("-1")) {
-					System.out.println("Server already started a game. Try again later");
-					break;
-				} else if (serverResponse.contains("winner")
-                    || serverResponse.contains("done"))
-                    {
-                    System.out.println(serverResponse);
-                    break;
-                    }
-                else
-                    {
-                    System.out.println("Server says: " + serverResponse);
-                    }
+				respondToInput();
 			}
 
 			}catch (Exception e)
@@ -535,4 +514,44 @@ public class YahtzeeMultiPlayer {
 				}
 		}
 
-}
+	private void respondToInput()
+		{
+		try
+			{
+			Object input = in.readObject();
+			if (input instanceof String)
+				{
+				String serverResponse = (String)input;
+				if (serverResponse.contains("ID"))
+				{
+					System.out.println("Server says: " + serverResponse);
+					this.ID = Integer.valueOf(serverResponse.replaceAll("\\D+",""));
+				}
+				else if (serverResponse.equals("begin")) {
+					gameLauncher();
+				} else if (serverResponse.equals("-1")) {
+					System.out.println("Server already started a game. Try again later");
+					System.exit(0);
+				} else if (serverResponse.contains("winner")
+						|| serverResponse.contains("done"))
+					{
+					System.out.println(serverResponse);
+					}
+				else
+					{
+					System.out.println("Server says: " + serverResponse);
+					}
+				}
+			else
+				{
+				System.out.println(Arrays.toString((int[]) input));
+				}
+		}
+		catch (Exception e)
+			{
+
+			}
+		}
+	}
+
+
