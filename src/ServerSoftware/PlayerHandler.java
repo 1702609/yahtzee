@@ -26,8 +26,6 @@ public class PlayerHandler extends Thread {
     @Override
     public void run() 
     	{
-        ScoreBoardUploader up = new ScoreBoardUploader();
-        up.run();
 		try
 			{
 			out.writeObject((String)"Your ID is "+id); //initial message
@@ -37,6 +35,9 @@ public class PlayerHandler extends Thread {
 			{
 			e.printStackTrace();
 			}
+
+		ScoreBoardUploader up = new ScoreBoardUploader();
+		up.run();
     	}
 
 	public void sendMessage(String msg)
@@ -86,7 +87,7 @@ public class PlayerHandler extends Thread {
 	{
 		try
 		{
-			Thread.sleep(750);
+		Thread.sleep(750);
 		}
 		catch (InterruptedException e)
 		{
@@ -99,23 +100,17 @@ class ScoreBoardUploader extends Thread
         @Override
         public void run()
             {
-            String msg = null;
-            try {
-                msg = (String) PlayerHandler.in.readObject();
-                }
-            catch (Exception e)
-                {
-                }
-            if (msg.equals("Whats the score?"))
-                {
-                try {
-                    PlayerHandler.scoreBoard.getCurrentScoreBoard();
-                    }
-                catch (InterruptedException e)
-                    {
-                    e.printStackTrace();
-                    }
-                }
-            }
+			try
+				{
+				PlayerHandler.out.writeObject(PlayerHandler.scoreBoard.getCurrentScoreBoard());
+				}
+			catch (IOException e)
+				{
+				e.printStackTrace();
+				} catch (InterruptedException e)
+				{
+				e.printStackTrace();
+				}
+			}
     }
 

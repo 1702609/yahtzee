@@ -1,13 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5f9eade4-b83e-4a1f-83fb-170dce872edf" name="Default Changelist" comment="">
+    <list default="true" id="c4c8e4f3-5bd2-4920-8c6e-14d9d4228b14" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/bin/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ClientSoftware/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ServerSoftware/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/ServerSoftware/GameLauncher.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/ServerSoftware/GameLauncher.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ServerSoftware/PlayerHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/ServerSoftware/PlayerHandler.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/ServerSoftware/YahtzeeServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/ServerSoftware/YahtzeeServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/yathzee/CreateTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/yathzee/CreateTable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/yathzee/TableList$EnumAlignment.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/yathzee/TableList$EnumAlignment.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/yathzee/TableList.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/yathzee/TableList.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/yathzee/YahtzeeSinglePlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/yathzee/YahtzeeSinglePlayer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ClientSoftware/YahtzeeMultiPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ClientSoftware/YahtzeeMultiPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ServerSoftware/PlayerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerSoftware/PlayerHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ServerSoftware/SharedScoreBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerSoftware/SharedScoreBoard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ServerSoftware/YahtzeeServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerSoftware/YahtzeeServer.java" afterDir="false" />
     </list>
+    <ignored path="$PROJECT_DIR$/out/" />
+    <ignored path="$PROJECT_DIR$/bin/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,25 +31,121 @@
     <option name="testRunner" value="GRADLE" />
     <option name="delegatedBuild" value="true" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>hello</find>
-    </findStrings>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ServerSoftware/YahtzeeServer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="21" column="8" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="8" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ServerSoftware/PlayerHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="19" column="11" selection-start-line="19" selection-start-column="11" selection-end-line="19" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ServerSoftware/SharedScoreBoard.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="28">
+              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+              <folding>
+                <element signature="e#1181#1182#0" expanded="true" />
+                <element signature="e#1280#1281#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/ClientSoftware/YahtzeeMultiPlayer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="109">
+              <caret line="505" selection-start-line="505" selection-end-line="505" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectId" id="1TTtKYj88KnIDQZqOZ3PAGZPwTj" />
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/ServerSoftware/SharedScoreBoard.java" />
+        <option value="$PROJECT_DIR$/src/ClientSoftware/YahtzeeMultiPlayer.java" />
+        <option value="$PROJECT_DIR$/src/ServerSoftware/YahtzeeServer.java" />
+        <option value="$PROJECT_DIR$/src/ServerSoftware/PlayerHandler.java" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1440" />
+    <option name="height" value="821" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="yahtzee" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yahtzee" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yahtzee" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yahtzee" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yahtzee" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yahtzee" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="ClientSoftware" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yahtzee" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yahtzee" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="ServerSoftware" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yahtzee" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yahtzee" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="ServerSoftware" type="462c0819:PsiDirectoryNode" />
+              <item name="PlayerHandler.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+            </path>
+            <path>
+              <item name="yahtzee" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yahtzee" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="ServerSoftware" type="462c0819:PsiDirectoryNode" />
+              <item name="YahtzeeServer.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+    </panes>
+  </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -64,7 +173,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="YahtzeeServer" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+    <configuration name="YahtzeeServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ServerSoftware.YahtzeeServer" />
       <module name="yathzee" />
       <extension name="coverage">
@@ -78,8 +187,8 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.YahtzeeServer" />
       <item itemvalue="Application.YahtzeeMultiPlayer" />
+      <item itemvalue="Application.YahtzeeServer" />
     </list>
     <recent_temporary>
       <list>
@@ -93,26 +202,86 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="5f9eade4-b83e-4a1f-83fb-170dce872edf" name="Default Changelist" comment="" />
-      <created>1573471321069</created>
+      <changelist id="c4c8e4f3-5bd2-4920-8c6e-14d9d4228b14" name="Default Changelist" comment="" />
+      <created>1574332466254</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1573471321069</updated>
+      <updated>1574332466254</updated>
     </task>
     <servers />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
-          </value>
-        </entry>
-      </map>
-    </option>
+  <component name="ToolWindowManager">
+    <frame x="0" y="23" width="1440" height="821" extended-state="0" />
+    <layout>
+      <window_info id="Designer" />
+      <window_info id="UI Designer" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24964234" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32921812" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39917696" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Palette" />
+      <window_info anchor="right" id="Maven" />
+      <window_info anchor="right" id="Palette&#9;" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/ClientSoftware/YahtzeeMultiPlayer.java</url>
+          <line>504</line>
+          <properties />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/ServerSoftware/SharedScoreBoard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="28">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+          <folding>
+            <element signature="e#1181#1182#0" expanded="true" />
+            <element signature="e#1280#1281#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ServerSoftware/PlayerHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="19" column="11" selection-start-line="19" selection-start-column="11" selection-end-line="19" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ServerSoftware/YahtzeeServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="21" column="8" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ClientSoftware/YahtzeeMultiPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="109">
+          <caret line="505" selection-start-line="505" selection-end-line="505" />
+        </state>
+      </provider>
+    </entry>
   </component>
   <component name="masterDetails">
     <states>

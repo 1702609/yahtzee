@@ -9,24 +9,22 @@ import java.util.List;
 public class YahtzeeServer{
 
 	protected static int playerID = 0;
-    protected static List<PlayerHandler> clients = Collections.synchronizedList(new ArrayList<>());
+    protected static List<PlayerHandler> clients = new ArrayList<>();
 	protected final static int PORT = 9090;
-	public static SharedScoreBoard scoreBoard;
+	protected static SharedScoreBoard scoreBoard;
 
     public static void main(String[] args) throws IOException
         {
 		scoreBoard = new SharedScoreBoard();
 		ServerSocket listner = new ServerSocket(PORT);
-		synchronized (clients) {
-			while (!canTheServerStart()) {
-				System.out.println("Waiting for client connection...");
-				Socket client = listner.accept();
-				System.out.println("Connected to client");
-				PlayerHandler playerThread = new PlayerHandler(client, playerID + 1, scoreBoard);
-				clients.add(playerThread);
-				clients.get(playerID).start();
-				playerID++;
-			}
+		while (!canTheServerStart()) {
+			System.out.println("Waiting for client connection...");
+			Socket client = listner.accept();
+			System.out.println("Connected to client");
+			PlayerHandler playerThread = new PlayerHandler(client, playerID + 1, scoreBoard);
+			clients.add(playerThread);
+			clients.get(playerID).start();
+			playerID++;
 		}
 		scoreBoard.startScoreBoard(clients.size());
 		GameLauncher ge = new GameLauncher();
@@ -67,6 +65,7 @@ class GameLauncher extends Thread
 	private int currentlyPlaying = 0;
 	private Object [] tempScore;
 	private int[] everyoneScore = new int[numberOfPlayers];
+
 
 	@Override
 	public void run()
