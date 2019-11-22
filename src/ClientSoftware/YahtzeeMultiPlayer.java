@@ -17,6 +17,8 @@ public class YahtzeeMultiPlayer {
 	ObjectInputStream in; // take in message
 	int numberOfRound = 0;
 	int choice = 0;
+	int[] tempScoreBoard = null;
+	Queue messages = new LinkedList();
 
 	//Read an integer
 	public int inputInt(String Prompt) {
@@ -504,9 +506,7 @@ public class YahtzeeMultiPlayer {
 		try {
 			System.out.println("Welcome to Yahtzee!");
 			initialiseConnection();
-			while (true) {
-				respondToInput();
-			}
+			respondToInput();
 
 			}catch (Exception e)
 				{
@@ -516,9 +516,16 @@ public class YahtzeeMultiPlayer {
 
 	private void respondToInput()
 		{
+		while (true)
+		{
 		try
 			{
+			
 			Object input = in.readObject();
+			while (input == null)
+				{
+				input = in.readObject();
+				}
 			if (input instanceof String)
 				{
 				String serverResponse = (String)input;
@@ -529,6 +536,7 @@ public class YahtzeeMultiPlayer {
 				}
 				else if (serverResponse.equals("begin")) {
 					gameLauncher();
+					continue;
 				} else if (serverResponse.equals("-1")) {
 					System.out.println("Server already started a game. Try again later");
 					System.exit(0);
@@ -542,16 +550,22 @@ public class YahtzeeMultiPlayer {
 					System.out.println("Server says: " + serverResponse);
 					}
 				}
-			else
+			else //this one only gets scoreboard
 				{
-				System.out.println(Arrays.toString((int[]) input));
+				if (!Arrays.equals((int[]) input,tempScoreBoard)) 
+					{
+					tempScoreBoard = (int[]) input;
+					System.out.println("The current score board is: ");
+					System.out.println(Arrays.toString((int[]) input));
+					}
 				}
 		}
 		catch (Exception e)
 			{
 
 			}
-		}
+		}}
 	}
+
 
 

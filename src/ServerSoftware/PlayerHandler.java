@@ -48,7 +48,7 @@ public class PlayerHandler extends Thread {
 			}
 		}
 
-	public void sendMessage(String msg)
+	public synchronized void sendMessage(Object msg)
 		{
 		try
 			{
@@ -113,7 +113,7 @@ class UploadScoreBoard extends Thread
 			this.scoreBoard = scoreBoard;
 			this.out = out;
 			}
-		Object[] temp;
+		int[] temp;
 		@Override
 		public void run()
 			{
@@ -124,7 +124,8 @@ class UploadScoreBoard extends Thread
 					temp = scoreBoard.getScoreBoard();
 					out.writeObject(temp);
 					scoreBoard.releaseLock();
-				} catch (InterruptedException | IOException e) {
+					Thread.sleep(800);
+				} catch (Exception e) {
 					System.err.println("Failed to get lock when reading:" + e);
 				}
 				}

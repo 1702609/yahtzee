@@ -27,7 +27,7 @@ public class YahtzeeServer{
 			playerID++;
 			}
 		scoreBoard.setScoreBoardSize(clients.size());
-		GameLauncher ge = new GameLauncher();
+		GameLauncher ge = new GameLauncher(scoreBoard);
 		ge.start();
 		while(true)
 			{
@@ -39,7 +39,7 @@ public class YahtzeeServer{
         }
     
     private static boolean canTheServerStart() {
-		if (YahtzeeServer.clients.size() >= 3) {
+		if (YahtzeeServer.clients.size() >= 2) {
 			System.out.println("Lets start the game now?");
 			try {
 				BufferedReader serverIn = new BufferedReader(new InputStreamReader(System.in));
@@ -65,7 +65,12 @@ class GameLauncher extends Thread
 	private int currentlyPlaying = 0;
 	private Object [] tempScore;
 	private int[] everyoneScore = new int[numberOfPlayers];
-
+	private SharedScoreBoard scoreBoard;
+	
+	public GameLauncher(SharedScoreBoard scoreboard)
+		{
+		this.scoreBoard = scoreboard;
+		}
 	@Override
 	public void run()
 		{
@@ -165,7 +170,8 @@ class GameLauncher extends Thread
 				int tempId = currentlyPlaying+1;
 				String msg = "Player "+tempId+" has choosen "+ tempScore[0]+" with a score of "+tempScore[1];
 				YahtzeeServer.clients.get(i).sendMessage(msg);
-				YahtzeeServer.scoreBoard.setScoreBoard(tempScore);
+				scoreBoard.setScoreBoard(everyoneScore);
+				
 				}
 			}
 		}

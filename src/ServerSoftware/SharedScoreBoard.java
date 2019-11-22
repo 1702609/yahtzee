@@ -6,13 +6,13 @@ public class SharedScoreBoard {
 	
 	private SharedScoreBoard mySharedObj;
 	private String myThreadName;
-	private Object[] everyoneScore;
+	private static int[] everyoneScore;
 	private boolean accessing=false; // true a thread has a lock, false otherwise
 	private int threadsWaiting=0; // number of waiting writers
 
 	public void setScoreBoardSize(int size)
 		{
-		everyoneScore = new Object[size];
+		everyoneScore = new int[size];
 		}
 
 
@@ -46,12 +46,12 @@ public class SharedScoreBoard {
 	
     /* The processInput method */
 
-	public synchronized Object[] getScoreBoard()
+	public synchronized int[] getScoreBoard()
 		{
 		return everyoneScore;
     	}	
 
-	public void setScoreBoard(Object[] Latestscore)
+	public void setScoreBoard(int[] Latestscore)
 		{
 		everyoneScore = Latestscore;
 		}

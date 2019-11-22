@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c4c8e4f3-5bd2-4920-8c6e-14d9d4228b14" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/ClientSoftware/YahtzeeMultiPlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/ClientSoftware/YahtzeeMultiPlayer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/ServerSoftware/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/bin/ServerSoftware/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/ServerSoftware/GameLauncher.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/ServerSoftware/GameLauncher.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/ServerSoftware/PlayerHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/ServerSoftware/PlayerHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/ServerSoftware/YahtzeeServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/ServerSoftware/YahtzeeServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ClientSoftware/YahtzeeMultiPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ClientSoftware/YahtzeeMultiPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ServerSoftware/PlayerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerSoftware/PlayerHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ServerSoftware/YahtzeeServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerSoftware/YahtzeeServer.java" afterDir="false" />
-    </list>
+    <list default="true" id="c4c8e4f3-5bd2-4920-8c6e-14d9d4228b14" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
