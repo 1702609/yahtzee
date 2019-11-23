@@ -1,18 +1,24 @@
 package ServerSoftware;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SharedScoreBoard {
 	
 	private SharedScoreBoard mySharedObj;
 	private String myThreadName;
-	private static int[] everyoneScore;
+	private String everyoneScore="";
 	private boolean accessing=false; // true a thread has a lock, false otherwise
 	private int threadsWaiting=0; // number of waiting writers
 
 	public void setScoreBoardSize(int size)
 		{
-		everyoneScore = new int[size];
+		everyoneScore += "[";
+		for (int i = 0; i<size; i++)
+			{
+			everyoneScore += "0,";
+			}
+		everyoneScore=everyoneScore.substring(0, everyoneScore.length() - 1);
+		everyoneScore += "]";
 		}
 
 
@@ -46,14 +52,15 @@ public class SharedScoreBoard {
 	
     /* The processInput method */
 
-	public synchronized int[] getScoreBoard()
+	public synchronized String getScoreBoard()
 		{
 		return everyoneScore;
     	}	
 
-	public void setScoreBoard(int[] Latestscore)
+	public void setScoreBoard(int[] latestscore)
 		{
-		everyoneScore = Latestscore;
+		everyoneScore = Arrays.toString(latestscore);
+		
 		}
 }
 

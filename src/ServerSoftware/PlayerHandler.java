@@ -8,58 +8,36 @@ import java.util.Scanner;
 
 public class PlayerHandler extends Thread {
     private Socket clients;
-	private ObjectOutputStream out;//writing to someone
 	private ObjectInputStream in;// take in message
 	private int id;
 	private Object[] selectedScore;
 	private SharedScoreBoard scoreBoard;
 	private UploadScoreBoard up;
-
+	private SendMessage message;
+	
 	public PlayerHandler(Socket player, int id, SharedScoreBoard scoreBoard) throws IOException
     	{
 		clients = player;
 		this.id = id;
-		out = new ObjectOutputStream(clients.getOutputStream());
 		in = new ObjectInputStream(clients.getInputStream());
 		this.scoreBoard = scoreBoard;
+		message = new SendMessage(clients);
     	}
     
     @Override
     public void run() 
     	{
-		try
-			{
-			out.writeObject("Your ID is "+id); //initial message
-			out.writeObject(tellPlayersToWait());
-			}
-		catch (IOException e)
-			{
-			e.printStackTrace();
-			}
+		message.sendMessage("Your ID is "+id);//initial message
+		message.sendMessage(tellPlayersToWait());
     	}
 	public void notifyGameStartsNow()
 		{
-			try {
-				out.writeObject("Get Ready!!!");
-				up = new UploadScoreBoard(out,scoreBoard);
-				up.start();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		message.sendMessage("Get Ready!!!");
+		up = new UploadScoreBoard(message,scoreBoard);
+		up.start();
+			
 		}
 
-	public synchronized void sendMessage(Object msg)
-		{
-		try
-			{
-			out.writeObject(msg);
-			waitFunction();
-			}
-		catch (IOException e)
-			{
-			e.printStackTrace();
-			}
-		}
 
 	public boolean isRoundComplete() throws IOException
 		{
@@ -79,6 +57,11 @@ public class PlayerHandler extends Thread {
 			}
 		}
 
+	public void sendMessage(Object msg)
+	{		
+	message.sendMessage(msg);
+	}
+	
 	public Object[] getSelectedScore()
 		{
 		return selectedScore;
@@ -91,6 +74,58 @@ public class PlayerHandler extends Thread {
 		return msg;
 		}
 
+}
+class UploadScoreBoard extends Thread
+	{
+		SendMessage message;
+		SharedScoreBoard scoreBoard;
+
+		UploadScoreBoard(SendMessage message, SharedScoreBoard scoreBoard)
+			{
+			this.scoreBoard = scoreBoard;
+			this.message = message;
+			}
+		int[] temp;
+		@Override
+		public void run()
+			{
+			while (true)
+				{
+				try {
+					scoreBoard.acquireLock();
+					message.sendMessage(scoreBoard.getScoreBoard());
+					scoreBoard.releaseLock();
+					Thread.sleep(800);
+				} catch (Exception e) {
+					System.err.println("Failed to get lock when reading:" + e);
+				}
+				}
+			}
+	}
+class SendMessage 
+	{
+	private ObjectOutputStream out;//writing to someone
+	public SendMessage(Socket s)
+		{
+		try {
+			out = new ObjectOutputStream(s.getOutputStream());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			}
+		}	
+	public synchronized void sendMessage(Object msg)
+	{
+	try
+		{
+		out.writeObject(msg);
+		waitFunction();
+		}
+	catch (IOException e)
+		{
+		e.printStackTrace();
+		}
+	}
 	private static void waitFunction()
 	{
 		try
@@ -102,32 +137,5 @@ public class PlayerHandler extends Thread {
 			e.printStackTrace();
 		}
 	}
-}
-class UploadScoreBoard extends Thread
-	{
-		ObjectOutputStream out;
-		SharedScoreBoard scoreBoard;
-
-		UploadScoreBoard(ObjectOutputStream out, SharedScoreBoard scoreBoard)
-			{
-			this.scoreBoard = scoreBoard;
-			this.out = out;
-			}
-		int[] temp;
-		@Override
-		public void run()
-			{
-			while (true)
-				{
-				try {
-					scoreBoard.acquireLock();
-					temp = scoreBoard.getScoreBoard();
-					out.writeObject(temp);
-					scoreBoard.releaseLock();
-					Thread.sleep(800);
-				} catch (Exception e) {
-					System.err.println("Failed to get lock when reading:" + e);
-				}
-				}
-			}
+	
 	}

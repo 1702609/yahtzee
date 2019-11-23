@@ -17,7 +17,7 @@ public class YahtzeeMultiPlayer {
 	ObjectInputStream in; // take in message
 	int numberOfRound = 0;
 	int choice = 0;
-	int[] tempScoreBoard = null;
+	String tempScoreBoard = "";
 	Queue messages = new LinkedList();
 
 	//Read an integer
@@ -545,18 +545,18 @@ public class YahtzeeMultiPlayer {
 					{
 					System.out.println(serverResponse);
 					}
+				else if (serverResponse.contains("[")) 
+					{
+					if (!tempScoreBoard.equals(serverResponse)) //this one only gets scoreboard
+						{
+						tempScoreBoard = serverResponse;
+						System.out.println("The current score board is: ");
+						System.out.println(tempScoreBoard);
+						}
+					}
 				else
 					{
 					System.out.println("Server says: " + serverResponse);
-					}
-				}
-			else //this one only gets scoreboard
-				{
-				if (!Arrays.equals((int[]) input,tempScoreBoard)) 
-					{
-					tempScoreBoard = (int[]) input;
-					System.out.println("The current score board is: ");
-					System.out.println(Arrays.toString((int[]) input));
 					}
 				}
 		}
