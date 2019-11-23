@@ -494,7 +494,31 @@ public class YahtzeeMultiPlayer {
 			e.printStackTrace();
 			}
 		}
+    
+    private void showScoreBoard()
+    {
+    	String[] items = tempScoreBoard.replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\\s", "").split(",");
 
+    	int[] results = new int[items.length];
+
+    	for (int i = 0; i < items.length; i++) 
+    		{
+	        results[i] = Integer.parseInt(items[i]);
+    		}
+		int tempPlayerId = 0;
+		String leftAlignFormat = "| %-15s | %-8d |%n";
+		System.out.format("+-----------------+----------+%n");
+		System.out.format("| Player          | Score    |%n");
+		for (int i = 0; i < results.length; i++)
+			{
+			tempPlayerId++;
+			String playerID = "Player "+tempPlayerId;
+			System.out.format("+-----------------+----------+%n");
+			System.out.format(leftAlignFormat, playerID,results[i]);
+			}
+		System.out.format("+-----------------+----------+%n");
+		}
+    	
     public static void main(String[] args) throws IOException
 		{
 		YahtzeeMultiPlayer mp = new YahtzeeMultiPlayer();
@@ -551,7 +575,7 @@ public class YahtzeeMultiPlayer {
 						{
 						tempScoreBoard = serverResponse;
 						System.out.println("The current score board is: ");
-						System.out.println(tempScoreBoard);
+						showScoreBoard();
 						}
 					}
 				else
