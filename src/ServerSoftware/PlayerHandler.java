@@ -119,23 +119,12 @@ class SendMessage
 	try
 		{
 		out.writeObject(msg);
-		waitFunction();
 		}
 	catch (IOException e)
 		{
 		e.printStackTrace();
 		}
 	}
-	private static void waitFunction()
-	{
-		try
-		{
-			Thread.sleep(750);
-		}
-		catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}
-	}
+	
 	
 	}

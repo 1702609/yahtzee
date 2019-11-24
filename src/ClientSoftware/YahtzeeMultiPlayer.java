@@ -568,6 +568,7 @@ public class YahtzeeMultiPlayer {
 						|| serverResponse.contains("done"))
 					{
 					System.out.println(serverResponse);
+					System.exit(0); //terminates the game when game finished
 					}
 				else if (serverResponse.contains("[")) 
 					{

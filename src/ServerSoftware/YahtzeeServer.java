@@ -39,7 +39,7 @@ public class YahtzeeServer{
         }
     
     private static boolean canTheServerStart() {
-		if (YahtzeeServer.clients.size() >= 2) {
+		if (YahtzeeServer.clients.size() >= 3) {
 			System.out.println("Lets start the game now?");
 			try {
 				BufferedReader serverIn = new BufferedReader(new InputStreamReader(System.in));
@@ -80,7 +80,7 @@ class GameLauncher extends Thread
 
 	private void gameSequence()
 		{
-		for(int i = 0; i < 13*numberOfPlayers; i++)
+		for(int i = 0; i < 3*numberOfPlayers; i++)
 			{
 			startGame();
 			waitUntilPlayerIsFinished();
@@ -89,7 +89,13 @@ class GameLauncher extends Thread
 			pickNextPlayer();
 			}
 		announceWinner();
-	    System.exit(0);
+	    try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.exit(0);
 		}
 
 		private int findHighScore()
