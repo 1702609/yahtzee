@@ -1,4 +1,4 @@
-package ServerSoftware;
+
 
 import java.net.*;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class YahtzeeServer{
         }
     
     private static boolean canTheServerStart() {
-		if (YahtzeeServer.clients.size() >= 2) {
+		if (YahtzeeServer.clients.size() >= 3) {
 			System.out.println("Lets start the game now?");
 			try {
 				BufferedReader serverIn = new BufferedReader(new InputStreamReader(System.in));

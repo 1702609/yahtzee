@@ -19,7 +19,8 @@ public class YahtzeeMultiPlayer {
 	int choice = 0;
 	String tempScoreBoard = "";
 	Queue messages = new LinkedList();
-
+	static String IPaddress = null;
+	
 	//Read an integer
 	public int inputInt(String Prompt) {
 		int result = 0;
@@ -415,7 +416,7 @@ public class YahtzeeMultiPlayer {
 
 	private void initialiseConnection() throws IOException {
 		localHost = InetAddress.getLocalHost();
-		yahtzeeSocket = new Socket(localHost, clientPort);
+		yahtzeeSocket = new Socket(IPaddress, clientPort);
 		out = new ObjectOutputStream(yahtzeeSocket.getOutputStream());
 		in = new ObjectInputStream(yahtzeeSocket.getInputStream());
 	}
@@ -521,6 +522,7 @@ public class YahtzeeMultiPlayer {
     	
     public static void main(String[] args) throws IOException
 		{
+    	IPaddress = args[0];
 		YahtzeeMultiPlayer mp = new YahtzeeMultiPlayer();
 		mp.startUp();
 		}
